@@ -1,0 +1,150 @@
+group:SIMBA
+Sala = {
+Sal_Id:string, Sal_Disponibilidad:number
+'A', 1
+'B', 1
+'C', 1
+'D', 0
+}
+computador = {
+Com_Id, Comp_Disponibilidad, Sal_Id
+1234, 1, 'A'
+1235, 1, 'A'
+1236, 1, 'A'
+1237, 0, 'A'
+1238, null, 'A'
+2239, 1, 'B'
+2240, 1, 'B'
+2241, 1, 'B'
+2242, 1, 'B'
+2243, 1, 'B'
+2244, 1, 'B'
+3245, 1, 'C'
+3246, 1, 'C'
+3247, 1, 'C'
+3248, 1, 'C'
+3249, 1, 'C'
+3250, 1, 'C'
+3251, 0, 'C'
+3252, NULL, 'C'
+3253, NULL, 'C'
+3254, 1, 'C'
+3255, NULL, 'C'
+3256, 0, 'C'
+4257, 1, 'D'
+4258, 1, 'D'
+4259, 1, 'D'
+4260, 1, 'D'
+4261, 1, 'D'
+}
+facultad = {
+Fac_Codigo:number, Fac_Nombre:string
+2049,"Facultad de Artes"
+2050,"Facultad de Ciencias"
+2728,"Facultad de Ciencias Agrarias"
+2051,"Facultad de Ciencias Economicas"
+2052,"Facultad de Ciencias Humanas"
+2053,"Facultad de Derecho, Ciencias Politicas y Sociales"
+2054,"Facultad de Enfermeria"
+2055,"Facultad de Ingenieria"
+2056,"Facultad de Medicina"
+2057,"Facultad de Medicina Veterinaria y Zootecnia"
+2058,"Facultad de Odontologia"
+}
+programa ={
+Pro_Codigo:string, Pro_Nombre:string,Fac_Codigo:number
+"2508", "Cine y Television",2049
+"2933", "Ciencias De La Computacion",2050
+"2505", "Ingenieria Agronomica",2728
+"2534", "Estudios Literarios",2052
+"2539", "Derecho",2053
+"2A74", "Ingenieria De Sistemas",2055
+"2552", "Medicina",2056
+"2555", "Medicina Veterinaria",2057
+"2557", "Odontologia",2058
+}
+empleado ={
+Emp_Tiun:number, Emp_Nombre:string, Emp_Apellido:string, Emp_Correo:string, Doc_Planta:number, Fun_Cargo:string, Fac_Codigo:number
+3123456790,"Isabella","Arbelaez","iarb@unal.edu.co",0,null,2050
+3123456791,"Margaret","Gutierrez","mgut@unal.edu.co",1,null,2050
+3123456792,"Hernan","Guatavita","hgua@unal.edu.co",1,null,2055
+3123456793,"Barbara","Roberts","brob@unal.edu.co",1,null,2056
+3123456794,"Angela","Siabato","asia@unal.edu.co",1,null,2051
+3123456795,"Jhon","Mendoza","jmen@unal.edu.co",null,"Jefe ejecutivo de produccion agroindustrial",2728
+3123456796,"Johana","Granados","jgra@unal.edu.co",null,"Supervisora de materiales",2058
+}
+Estudiante={
+Est_Tiun:number, Est_Nombre:string, Est_Apellido:string, Est_Correo:string,  Pro_Codigo:string
+1234567891,"Mauricio","Medina","mmed@unal.edu.co","2A74"
+1234567892,"Pablo","Mendoza","pmen@unal.edu.co","2505"
+1234567893,"Ernesto","Avila","eavi@unal.edu.co","2933"
+1234567894,"Patricia","Fernandez","pfer@unal.edu.co","2534"
+1234567895,"Beatriz","Pinzon","bpin@unal.edu.co","2539"
+1234567896,"Jaime","Garzon","jgar@unal.edu.co","2552"
+1234567897,"Elena","Pinzon","epin@unal.edu.co","2555"
+1234567898,"Camila","Casas","ccas@unal.edu.co","2557"
+1234567890,"Maria","Cuadros","mcua@unal.edu.co","2508"
+}
+Monitor={
+Mon_Numero:number, Est_Tiun:number
+1,1234567898
+2,1234567895
+3,1234567896
+4,1234567890
+}
+Administrador={
+Adm_Tiun:number, Adm_Nombre:string,  Adm_Apellido:string, Adm_Correo:string
+2134567891,"Carlos","Cuevas","ccue@unal.edu.co"
+2134567892,"Fernanda","Cuervos","fcue@unal.edu.co"
+2134567893,"Carolina","Ramirez","cram@unal.edu.co"
+2134567894,"Julian","Villamizar","jvil@unal.edu.co"
+}
+Sesion={
+Ses_Fecha:date,  Ses_HoraInicio:string, Ses_HoraFin:string, Com_Id:number, Sal_Id:string, Mon_Numero:number, Est_Tiun:number, Sal_Comentarios:string
+
+2023-10-30,'13:00:00','13:35:00',1235,'A',1,1234567891,'El estudiante regó agua en la sala, no ocurrieron daños'
+2023-10-30,'14:00:00','16:00:00',1235,'A',1,1234567897,null
+2023-10-30,'16:05:56','17:42:00',1237,'A',3,1234567896,'La estudiante rompió el mouse'
+2023-10-30,'16:05:56','17:42:00',1234,'A',3,1234567896,null
+2023-10-30,'16:05:56','17:42:00',1238,'A',3,1234567896,null
+2023-10-30,'16:05:56','17:42:00',1236,'A',3,1234567896,null
+2023-10-30,'09:05:57','12:42:00',2239,'B',1,1234567896,null
+2023-10-30,'09:05:58','12:42:00',2240,'B',1,1234567893,null
+2023-10-30,'09:05:53','12:42:00',2241,'B',1,1234567892,null
+2023-10-30,'09:05:52','12:42:00',2242,'B',1,1234567891,null
+2023-10-30,'09:05:51','12:42:00',2243,'B',1,1234567896,null
+2023-10-30,'09:05:56','12:42:00',2244,'B',1,1234567894,null
+2023-10-31,'07:05:51','08:42:00',2241,'B',1,1234567896,null
+2023-10-31,'07:05:56','08:42:00',2242,'B',1,1234567894,null
+2023-10-30,'07:05:52','08:00:00',3245,'C',1,1234567898,null
+2023-10-30,'08:05:52','09:00:00',3245,'C',1,1234567897,null
+2023-10-30,'09:05:52','10:00:00',3245,'C',1,1234567894,null
+2023-10-30,'10:05:52','11:00:00',3245,'C',1,1234567893,null
+}
+Actividad={
+Act_Fecha:date,  Act_HoraInicio:string, Act_HoraFin:string,	Sal_Id:string, Emp_Tiun:number, Act_Comentarios:string
+2023-10-30,'13:05:00','17:40:00','D',3123456795,'Simposio de técnicas agroindustriales y prácticas orgánicas'
+2023-10-30,'07:30:00','09:00:00','D',3123456791,'Aplicaciones computacionales de cálculo vectorial'
+2023-10-30,'09:30:00','11:30:00','D',3123456790,'Introducción a químicos explosivos'
+2023-10-31,'09:30:00','15:30:00','D',3123456795,'Segundo parcial de la asignatura cultivos hidropónicos'
+2023-10-31,'12:30:00','18:00:00','D',3123456794,'Principios económicos en modelos estocásticos'
+}
+Turno_Mon={
+Tur_id:number,  Tur_Fecha:date, Tur_HoraInicio:string, Tur_HoraFinal:string, Sal_Id:string,  Mon_Numero:number
+123,2023-10-30,'07:00:00','15:00:00','C',1
+124,2023-10-30,'15:00:00','17:00:00','D',3
+125,2023-10-31,'08:00:00','11:00:00','B',2
+126,2023-10-31,'11:00:00','14:00:00','A',4
+}
+Turno_Adm={
+Sup_Fecha:date,  Sup_HoraInicio:string, Sup_HoraFinal:string, Adm_Tiun:number
+2023-10-30,'07:00:00','13:00:00',2134567891
+2023-10-30,'13:00:00','15:00:00',2134567892
+2023-10-31,'08:00:00','11:00:00',2134567893
+2023-10-31,'11:00:00','14:00:00',2134567894
+}
+System_Vars={
+lastActiveDate:date, lastActiveTime:string
+2023-10-31, '11:00:00'
+}
+
