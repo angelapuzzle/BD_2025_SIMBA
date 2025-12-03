@@ -52,14 +52,14 @@ USE SIM_BA;
     FROM Turno_Adm ta
     JOIN Turno_Mon tm ON (
         ta.Sup_Fecha = tm.Tur_Fecha 
-        AND ta.Sup_HoraInicio < tm.Tur_HoraFinal 
-        AND ta.Sup_HoraFinal > tm.Tur_HoraInicio
+        and ta.Sup_HoraInicio < tm.Tur_HoraFinal 
+        and ta.Sup_HoraFinal > tm.Tur_HoraInicio
     )
     JOIN Monitor m ON tm.Mon_Numero = m.Mon_Numero
     JOIN Estudiante e ON m.Est_Tiun = e.Est_Tiun
     WHERE ta.Sup_Fecha = @fecha 
-      AND ta.Sup_HoraInicio = @hora_inicio_admin 
-      AND ta.Adm_Tiun = @tiun_admin;
+        and ta.Sup_HoraInicio = @hora_inicio_admin 
+        and ta.Adm_Tiun = @tiun_admin;
 
 -- // ==========================================
 -- // CONFLICTOS EN RESERVAS
@@ -79,7 +79,7 @@ USE SIM_BA;
     SET @hora_final = cast('18:00:00' AS TIME);
     
     -- Inserción al iniciar el turno
-    INSERT INTO Turno_Adm(Sup_Fecha, Sup_HoraInicio, Adm_Tiun) values(@fecha_turno, @hora_inicial, @tiun_admin);
+    INSERT INTO Turno_Adm(Sup_Fecha, Sup_HoraInicio, Adm_Tiun) VALUES(@fecha_turno, @hora_inicial, @tiun_admin);
     
     -- Actualización de la hora de finalización
     -- Nota, id_turno corresponde con el id de la inserción

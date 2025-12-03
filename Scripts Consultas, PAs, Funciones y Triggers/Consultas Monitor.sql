@@ -6,7 +6,7 @@ use sim_ba;
 
 -- Ver sesiones en curso (Vista 1)
     -- Dato de prueba: Sesión activa en el día actual
-    replace into Sesion values(current_date(),'13:00:00',null,3245,'C',1,1234567893,null);
+    REPLACE INTO Sesion VALUES(current_date(),'13:00:00',null,3245,'C',1,1234567893,null);
     UPDATE Computador SET Comp_Disponibilidad=0 WHERE Com_Id='3245' and Sal_Id='C';
     
     SELECT * FROM vw_Sesiones_En_Curso;
@@ -85,15 +85,15 @@ use sim_ba;
         Sal_Comentarios
     FROM vw_Historial_Sesiones
     WHERE Com_Id = @computador 
-      AND Sal_Id = @sala
-      AND Ses_Fecha >= DATE_SUB(CURRENT_DATE(), INTERVAL @dias_atras DAY)
+        and Sal_Id = @sala
+        and Ses_Fecha >= DATE_SUB(CURRENT_DATE(), INTERVAL @dias_atras DAY)
     ORDER BY Ses_Fecha DESC, Ses_HoraInicio DESC;
 
 
 -- Inhabilitar o bloquear computador y cerrar sesión (Utiliza Vista 1)
 -- Atributos: inhabilitar (defecto false), sala, computador
     -- Dato de prueba: Sesión activa en el día actual
-    replace into Sesion values(current_date(),'13:00:00',null,3245,'C',1,1234567893,null);
+    REPLACE INTO Sesion VALUES(current_date(),'13:00:00',null,3245,'C',1,1234567893,null);
     UPDATE Computador SET Comp_Disponibilidad=0 WHERE Com_Id='3245' and Sal_Id='C';
     -- Atributos de prueba
     SET @inhabilitar = false;
@@ -175,7 +175,7 @@ use sim_ba;
     SET @funcionario_cargo = null;
     SET @facultad_codigo = 2053;
 
-    insert into Empleado values(@tiun_empleado, @nombre_empleado, @apellido_empleado, @correo_empleado, @docente_planta, @funcionario_cargo, @facultad_codigo);
+    INSERT INTO Empleado VALUES(@tiun_empleado, @nombre_empleado, @apellido_empleado, @correo_empleado, @docente_planta, @funcionario_cargo, @facultad_codigo);
     
     -- Verificar
     SELECT * FROM Empleado WHERE Emp_Tiun=@tiun_empleado;
@@ -268,7 +268,7 @@ use sim_ba;
     -- Atributos de prueba
     SET @sala = 'C';
     -- Dato de prueba: Sesión activa en el día actual
-    replace into Sesion values(current_date(),'13:00:00',null,3245,'C',1,1234567893,null);
+    REPLACE INTO Sesion VALUES(current_date(),'13:00:00',null,3245,'C',1,1234567893,null);
     UPDATE Computador SET Comp_Disponibilidad=0 WHERE Com_Id='3245' and Sal_Id='C';
     
     -- Marcar sala como no disponible

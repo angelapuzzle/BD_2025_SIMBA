@@ -19,7 +19,7 @@ USE SIM_BA;
     FROM computador c
     NATURAL JOIN sala s
     WHERE c.Comp_Disponibilidad = 1 
-      AND s.Sal_Disponibilidad = 1
+        and s.Sal_Disponibilidad = 1
     ORDER BY c.Sal_Id, c.Com_Id;
 
 -- Vista: Todos los computadores de salas habilitadas (incluye disponibles y ocupados)
@@ -33,7 +33,7 @@ USE SIM_BA;
     FROM computador c
     NATURAL JOIN sala s
     WHERE s.Sal_Disponibilidad = 1 
-      AND c.Comp_Disponibilidad IS NOT NULL
+        and c.Comp_Disponibilidad is not null
     ORDER BY c.Sal_Id, c.Com_Id;
 
 -- Vista: Resumen de ocupación por sala
@@ -43,11 +43,11 @@ USE SIM_BA;
         s.Sal_Id,
         s.Sal_Disponibilidad,
         COUNT(c.Com_Id) AS Total_Computadores,
-        SUM(CASE WHEN c.Comp_Disponibilidad = 1 THEN 1 ELSE 0 END) AS Disponibles,
-        SUM(CASE WHEN c.Comp_Disponibilidad = 0 THEN 1 ELSE 0 END) AS Ocupados,
-        SUM(CASE WHEN c.Comp_Disponibilidad IS NULL THEN 1 ELSE 0 END) AS Bloqueados,
+        SUM(CASE when c.Comp_Disponibilidad = 1 then 1 else 0 END) AS Disponibles,
+        SUM(CASE when c.Comp_Disponibilidad = 0 then 1 else 0 END) AS Ocupados,
+        SUM(CASE when c.Comp_Disponibilidad is null then 1 else 0 END) AS Bloqueados,
         ROUND(
-            (SUM(CASE WHEN c.Comp_Disponibilidad = 0 THEN 1 ELSE 0 END) / COUNT(c.Com_Id)) * 100, 
+            (SUM(CASE when c.Comp_Disponibilidad = 0 then 1 else 0 END) / COUNT(c.Com_Id)) * 100, 
             2
         ) AS Porcentaje_Ocupacion
     FROM Sala s
@@ -81,7 +81,7 @@ USE SIM_BA;
     NATURAL JOIN Estudiante e
     NATURAL JOIN Programa p
     WHERE s.Ses_Fecha = CURRENT_DATE() 
-      AND s.Ses_HoraFin IS NULL
+        and s.Ses_HoraFin is null
     ORDER BY s.Ses_HoraInicio;
     
 -- Vista 2: Historial completo de sesiones con información del estudiante y monitor
@@ -105,12 +105,12 @@ USE SIM_BA;
         em.Est_Nombre AS Monitor_Nombre,
         em.Est_Apellido AS Monitor_Apellido,
         CASE 
-            WHEN s.Ses_HoraFin IS NULL THEN 'Activa'
-            ELSE 'Finalizada'
+            when s.Ses_HoraFin is null then 'Activa'
+            else 'Finalizada'
         END AS Estado_Sesion,
         CASE 
-            WHEN s.Ses_HoraFin IS NULL THEN TIMESTAMPDIFF(MINUTE, s.Ses_HoraInicio, CURRENT_TIME())
-            ELSE TIMESTAMPDIFF(MINUTE, s.Ses_HoraInicio, s.Ses_HoraFin)
+            when s.Ses_HoraFin is null then TIMESTAMPDIFF(MINUTE, s.Ses_HoraInicio, CURRENT_TIME())
+            else TIMESTAMPDIFF(MINUTE, s.Ses_HoraInicio, s.Ses_HoraFin)
         END AS Duracion_Minutos
     FROM Sesion s
     JOIN Estudiante e ON s.Est_Tiun = e.Est_Tiun
@@ -140,8 +140,8 @@ USE SIM_BA;
     JOIN Programa p ON e.Pro_Codigo = p.Pro_Codigo
     LEFT JOIN Monitor m ON s.Mon_Numero = m.Mon_Numero
     LEFT JOIN Estudiante em ON m.Est_Tiun = em.Est_Tiun
-    WHERE s.Sal_Comentarios IS NOT NULL 
-      AND s.Sal_Comentarios != ''
+    WHERE s.Sal_Comentarios is not null
+        and s.Sal_Comentarios != ''
     ORDER BY s.Ses_Fecha DESC, s.Ses_HoraInicio DESC;
     
 -- Vista 4: Reporte de ocupación diaria
@@ -157,7 +157,7 @@ USE SIM_BA;
             2
         ) AS Horas_Totales_Uso,
         COUNT(DISTINCT s.Est_Tiun) AS Estudiantes_Unicos,
-        SUM(CASE WHEN s.Sal_Comentarios IS NOT NULL THEN 1 ELSE 0 END) AS Incidentes_Reportados
+        SUM(CASE when s.Sal_Comentarios is not null then 1 else 0 END) AS Incidentes_Reportados
     FROM Sesion s
     GROUP BY s.Ses_Fecha, s.Sal_Id
     ORDER BY s.Ses_Fecha DESC, s.Sal_Id;
@@ -170,9 +170,9 @@ USE SIM_BA;
         c.Sal_Id,
         c.Comp_Disponibilidad,
         CASE 
-            WHEN c.Comp_Disponibilidad = 1 THEN 'Disponible'
-            WHEN c.Comp_Disponibilidad = 0 THEN 'Ocupado'
-            WHEN c.Comp_Disponibilidad IS NULL THEN 'Inhabilitado'
+            when c.Comp_Disponibilidad = 1 then 'Disponible'
+            when c.Comp_Disponibilidad = 0 then 'Ocupado'
+            when c.Comp_Disponibilidad is null then 'Inhabilitado'
         END AS Estado_Texto,
         COUNT(s.Ses_Fecha) AS Total_Sesiones,
         SUM(TIMESTAMPDIFF(MINUTE, s.Ses_HoraInicio, COALESCE(s.Ses_HoraFin, CURRENT_TIME()))) AS Minutos_Totales_Uso,
@@ -182,9 +182,9 @@ USE SIM_BA;
         ) AS Horas_Totales_Uso,
         MAX(s.Ses_Fecha) AS Ultima_Sesion_Fecha,
         MAX(s.Ses_HoraInicio) AS Ultima_Sesion_Hora,
-        SUM(CASE WHEN s.Sal_Comentarios IS NOT NULL THEN 1 ELSE 0 END) AS Total_Incidentes
+        SUM(CASE when s.Sal_Comentarios is not null then 1 else 0 END) AS Total_Incidentes
     FROM Computador c
-    LEFT JOIN Sesion s ON c.Com_Id = s.Com_Id AND c.Sal_Id = s.Sal_Id
+    LEFT JOIN Sesion s ON c.Com_Id = s.Com_Id and c.Sal_Id = s.Sal_Id
     GROUP BY c.Com_Id, c.Sal_Id, c.Comp_Disponibilidad
     ORDER BY c.Sal_Id, c.Com_Id;
     
@@ -207,14 +207,14 @@ USE SIM_BA;
         f.Fac_Nombre,
         TIMESTAMPDIFF(HOUR, a.Act_HoraInicio, a.Act_HoraFin) AS Duracion_Horas,
         CASE 
-            WHEN a.Act_Fecha = CURRENT_DATE() 
-                 AND a.Act_HoraInicio <= CURRENT_TIME() 
-                 AND a.Act_HoraFin >= CURRENT_TIME() 
-            THEN 'En curso'
-            WHEN a.Act_Fecha > CURRENT_DATE() 
-                 OR (a.Act_Fecha = CURRENT_DATE() AND a.Act_HoraInicio > CURRENT_TIME())
-            THEN 'Programada'
-            ELSE 'Finalizada'
+            when a.Act_Fecha = CURRENT_DATE() 
+                and a.Act_HoraInicio <= CURRENT_TIME() 
+                and a.Act_HoraFin >= CURRENT_TIME() 
+            then 'En curso'
+            when a.Act_Fecha > CURRENT_DATE() 
+                or (a.Act_Fecha = CURRENT_DATE() and a.Act_HoraInicio > CURRENT_TIME())
+            then 'Programada'
+            else 'Finalizada'
         END AS Estado_Actividad
     FROM Actividad a
     JOIN Empleado e ON a.Emp_Tiun = e.Emp_Tiun
@@ -228,11 +228,11 @@ USE SIM_BA;
         s.Sal_Id,
         s.Sal_Disponibilidad,
         COUNT(c.Com_Id) AS Total_Computadores,
-        SUM(CASE WHEN c.Comp_Disponibilidad = 1 THEN 1 ELSE 0 END) AS Disponibles,
-        SUM(CASE WHEN c.Comp_Disponibilidad = 0 THEN 1 ELSE 0 END) AS Ocupados,
-        SUM(CASE WHEN c.Comp_Disponibilidad IS NULL THEN 1 ELSE 0 END) AS Inhabilitados,
+        SUM(CASE when c.Comp_Disponibilidad = 1 then 1 else 0 END) AS Disponibles,
+        SUM(CASE when c.Comp_Disponibilidad = 0 then 1 else 0 END) AS Ocupados,
+        SUM(CASE when c.Comp_Disponibilidad is null then 1 else 0 END) AS Inhabilitados,
         ROUND(
-            (SUM(CASE WHEN c.Comp_Disponibilidad = 0 THEN 1 ELSE 0 END) / COUNT(c.Comp_Disponibilidad)) * 100, 
+            (SUM(CASE when c.Comp_Disponibilidad = 0 then 1 else 0 END) / COUNT(c.Comp_Disponibilidad)) * 100, 
             2
         ) AS Porcentaje_Ocupacion
     FROM Sala s
@@ -248,16 +248,16 @@ USE SIM_BA;
     DROP VIEW IF EXISTS vw_Dashboard_Estadisticas;
     CREATE VIEW vw_Dashboard_Estadisticas AS
     SELECT 
-        (SELECT COUNT(*) FROM Sesion WHERE Ses_Fecha = CURRENT_DATE() AND Ses_HoraFin IS NULL) AS Sesiones_Activas,
+        (SELECT COUNT(*) FROM Sesion WHERE Ses_Fecha = CURRENT_DATE() and Ses_HoraFin is null) AS Sesiones_Activas,
         (SELECT COUNT(*) FROM Computador WHERE Comp_Disponibilidad = 1) AS Computadores_Disponibles,
-        (SELECT COUNT(*) FROM Computador WHERE Comp_Disponibilidad IS NOT NULL) AS Computadores_Totales,
+        (SELECT COUNT(*) FROM Computador WHERE Comp_Disponibilidad is not null) AS Computadores_Totales,
         (SELECT COUNT(*) FROM Sala WHERE Sal_Disponibilidad = 1) AS Salas_Habilitadas,
         (SELECT COUNT(*) FROM Sala) AS Salas_Totales,
         (SELECT COUNT(DISTINCT tm.Mon_Numero) 
          FROM Turno_Mon tm 
          WHERE tm.Tur_Fecha = CURRENT_DATE() 
-           AND tm.Tur_HoraInicio <= CURRENT_TIME() 
-           AND (tm.Tur_HoraFinal IS NULL OR tm.Tur_HoraFinal >= CURRENT_TIME())) AS Monitores_Activos,
+             and tm.Tur_HoraInicio <= CURRENT_TIME() 
+             and (tm.Tur_HoraFinal is null or tm.Tur_HoraFinal >= CURRENT_TIME())) AS Monitores_Activos,
         (SELECT COUNT(*) FROM Monitor) AS Monitores_Totales;
 
 -- Vista 2: Supervisiones con detalles completos
@@ -278,8 +278,8 @@ USE SIM_BA;
     JOIN Administrador a ON ta.Adm_Tiun = a.Adm_Tiun
     LEFT JOIN Turno_Mon tm ON (
         ta.Sup_Fecha = tm.Tur_Fecha 
-        AND ta.Sup_HoraInicio < tm.Tur_HoraFinal 
-        AND ta.Sup_HoraFinal > tm.Tur_HoraInicio
+        and ta.Sup_HoraInicio < tm.Tur_HoraFinal 
+        and ta.Sup_HoraFinal > tm.Tur_HoraInicio
     )
     LEFT JOIN Monitor m ON tm.Mon_Numero = m.Mon_Numero
     LEFT JOIN Estudiante e ON m.Est_Tiun = e.Est_Tiun
@@ -307,8 +307,8 @@ USE SIM_BA;
     FROM Turno_Mon tm
     JOIN Turno_Adm ta ON (
         tm.Tur_Fecha = ta.Sup_Fecha 
-        AND ta.Sup_HoraInicio < tm.Tur_HoraFinal 
-        AND ta.Sup_HoraFinal > tm.Tur_HoraInicio
+        and ta.Sup_HoraInicio < tm.Tur_HoraFinal 
+        and ta.Sup_HoraFinal > tm.Tur_HoraInicio
     )
     NATURAL JOIN Monitor m
     NATURAL JOIN Estudiante e
@@ -331,17 +331,17 @@ USE SIM_BA;
         e.Est_Correo,
         p.Pro_Nombre,
         CASE 
-            WHEN tm.Tur_HoraFinal IS NULL THEN 'En curso'
-            ELSE 'Finalizado'
+            when tm.Tur_HoraFinal is null then 'En curso'
+            else 'Finalizado'
         END AS Estado_Turno,
         (SELECT COUNT(*) 
          FROM Sesion s 
          WHERE s.Mon_Numero = tm.Mon_Numero 
-           AND s.Ses_Fecha = tm.Tur_Fecha
-           AND s.Ses_HoraInicio >= tm.Tur_HoraInicio) AS Sesiones_Supervisadas,
+             and s.Ses_Fecha = tm.Tur_Fecha
+             and s.Ses_HoraInicio >= tm.Tur_HoraInicio) AS Sesiones_Supervisadas,
         CASE 
-            WHEN tm.Tur_HoraFinal IS NULL THEN TIMESTAMPDIFF(HOUR, tm.Tur_HoraInicio, CURRENT_TIME())
-            ELSE TIMESTAMPDIFF(HOUR, tm.Tur_HoraInicio, tm.Tur_HoraFinal)
+            when tm.Tur_HoraFinal is null then TIMESTAMPDIFF(HOUR, tm.Tur_HoraInicio, CURRENT_TIME())
+            else TIMESTAMPDIFF(HOUR, tm.Tur_HoraInicio, tm.Tur_HoraFinal)
         END AS Duracion_Horas
     FROM Turno_Mon tm
     JOIN Monitor m ON tm.Mon_Numero = m.Mon_Numero
@@ -361,12 +361,12 @@ USE SIM_BA;
         a.Adm_Apellido,
         a.Adm_Correo,
         CASE 
-            WHEN ta.Sup_HoraFinal IS NULL THEN 'En curso'
-            ELSE 'Finalizado'
+            when ta.Sup_HoraFinal is null then 'En curso'
+            else 'Finalizado'
         END AS Estado_Turno,
         CASE 
-            WHEN ta.Sup_HoraFinal IS NULL THEN TIMESTAMPDIFF(HOUR, ta.Sup_HoraInicio, CURRENT_TIME())
-            ELSE TIMESTAMPDIFF(HOUR, ta.Sup_HoraInicio, ta.Sup_HoraFinal)
+            when ta.Sup_HoraFinal is null then TIMESTAMPDIFF(HOUR, ta.Sup_HoraInicio, CURRENT_TIME())
+            else TIMESTAMPDIFF(HOUR, ta.Sup_HoraInicio, ta.Sup_HoraFinal)
         END AS Duracion_Horas
     FROM Turno_Adm ta
     JOIN Administrador a ON ta.Adm_Tiun = a.Adm_Tiun
@@ -390,10 +390,10 @@ USE SIM_BA;
     FROM Actividad a1
     JOIN Actividad a2 ON (
         a1.Act_Fecha = a2.Act_Fecha 
-        AND a1.Sal_Id = a2.Sal_Id
-        AND a1.Act_HoraInicio < a2.Act_HoraFin
-        AND a1.Act_HoraFin > a2.Act_HoraInicio
-        AND (a1.Act_HoraInicio != a2.Act_HoraInicio OR a1.Emp_Tiun != a2.Emp_Tiun)
+        and a1.Sal_Id = a2.Sal_Id
+        and a1.Act_HoraInicio < a2.Act_HoraFin
+        and a1.Act_HoraFin > a2.Act_HoraInicio
+        and (a1.Act_HoraInicio != a2.Act_HoraInicio or a1.Emp_Tiun != a2.Emp_Tiun)
     )
     JOIN Empleado e1 ON a1.Emp_Tiun = e1.Emp_Tiun
     JOIN Empleado e2 ON a2.Emp_Tiun = e2.Emp_Tiun
