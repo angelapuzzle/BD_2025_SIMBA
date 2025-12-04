@@ -1,0 +1,19 @@
+DISTRIBUCIÓN MONITOR:
+VISTAS
+-- Vista 1: Ver sesiones en curso: Queda tal cual como consulta para monitores.
+-- Vista 2: Historial completo de sesiones con información del estudiante y monitor
+-- Vista 3: Sesiones con comentarios/incidentes
+-- Vista 4: Reporte de ocupación diaria
+-- Vista 5: Estadísticas de uso por computador
+-- Vista 6: Actividades/Reservas con información del empleado
+-- Vista 7: Resumen de ocupación por sala
+
+Implementaciones: 
+1.	Se unieron las primeras 3 vistas en una sola consulta
+2.	Unir reporte de ocupación con estadísticas de uso en un solo botón en la interfaz.
+3. 
+
+
+CONSULTAS MONITOR:
+--Inserción de actividad y sesión.
+--
