@@ -4,17 +4,39 @@ use sim_ba;
 -- // Sistema de administración de computadores
 -- // ==========================================
 
--- Ver sesiones en curso (Vista 1)
+-- Ver sesiones en curso con filtro (Vista 1)
+-- Atributos (todos opcionales): hora_inicial, sala, computador,
+--  tiun_estudiante, nombre_estudiante, apellido_estudiante, filtrar_incidentes
+
     -- Dato de prueba: Sesión activa en el día actual
     REPLACE INTO Sesion VALUES(current_date(),'13:00:00',null,3245,'C',1,1234567893,null);
     UPDATE Computador SET Comp_Disponibilidad=0 WHERE Com_Id='3245' and Sal_Id='C';
+
+    SET @hora_inicial = null;
+    SET @sala = null;
+    SET @computador = null;
+    SET @tiun_estudiante = null;
+    SET @nombre_estudiante = null;
+    SET @apellido_estudiante = null;
+    SET @filtrar_incidentes = null;
     
-    SELECT * FROM vw_Sesiones_En_Curso;
+    SELECT *
+    FROM vw_Sesiones
+    WHERE
+        (@hora_inicial is null or @hora_inicial<Ses_HoraFin)
+        and (@sala is null or Sal_Id=@sala)
+        and (@computador is null or Com_Id=@computador)
+        and (@tiun_estudiante is null or Est_Tiun LIKE CONCAT(@tiun_estudiante, '%'))
+        and (@nombre_estudiante is null or Est_Nombre LIKE CONCAT('%', @nombre_estudiante, '%'))
+        and (@apellido_estudiante is null or Est_Apellido LIKE CONCAT('%', @apellido_estudiante, '%'))
+        and (@filtrar_incidentes is null or (Sal_Comentarios is not null and Sal_Comentarios != ''))
+        and (Ses_Fecha = CURRENT_DATE() and Ses_HoraFin is null);
 
 
--- Ver historial de sesiones por atributos filtrado (Vista 2)
--- Atributos (todos opcionales): dia_sesion, hora_inicial, hora_final, sala,
---  computador, tiun_estudiante, nombre_estudiante, apellido_estudiante
+-- Ver historial de sesiones con filtro (Vista 1)
+-- Atributos (todos opcionales): dia_sesion, hora_inicial, hora_final, sala, computador,
+--  tiun_estudiante, nombre_estudiante, apellido_estudiante, filtrar_incidentes
+
     -- Atributos de prueba 1: Día y franja horaria
     SET @dia_sesion = '2023-10-30';
     SET @hora_inicial = cast('11:45:00' AS TIME);
@@ -24,6 +46,7 @@ use sim_ba;
     SET @tiun_estudiante = null;
     SET @nombre_estudiante = null;
     SET @apellido_estudiante = null;
+    SET @filtrar_incidentes = null;
     -- Atributos de prueba 2: Día y nombre de estudiante (incompleto)
     SET @dia_sesion = '2023-10-30';
     SET @hora_inicial = null;
@@ -33,9 +56,10 @@ use sim_ba;
     SET @tiun_estudiante = null;
     SET @nombre_estudiante = 'CAMI';
     SET @apellido_estudiante = null;
-    
+    SET @filtrar_incidentes = null;
+
     SELECT *
-    FROM vw_Historial_Sesiones
+    FROM vw_Sesiones
     WHERE
         (@dia_sesion is null or Ses_Fecha=@dia_sesion)
         and (@hora_inicial is null or @hora_inicial<Ses_HoraFin)
@@ -44,10 +68,8 @@ use sim_ba;
         and (@computador is null or Com_Id=@computador)
         and (@tiun_estudiante is null or Est_Tiun LIKE CONCAT(@tiun_estudiante, '%'))
         and (@nombre_estudiante is null or Est_Nombre LIKE CONCAT('%', @nombre_estudiante, '%'))
-        and (@apellido_estudiante is null or Est_Apellido LIKE CONCAT('%', @apellido_estudiante, '%'));
-        
--- Ver sesiones con comentarios/incidentes (Vista 3)
-    SELECT * FROM vw_Sesiones_Con_Incidentes;
+        and (@apellido_estudiante is null or Est_Apellido LIKE CONCAT('%', @apellido_estudiante, '%'))
+        and (@filtrar_incidentes is null or (Sal_Comentarios is not null and Sal_Comentarios != ''));
 
 
 -- Ver información de uso de cada sala por fecha (Vista 4)

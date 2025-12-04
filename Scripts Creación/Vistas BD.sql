@@ -59,34 +59,9 @@ USE SIM_BA;
 -- VISTAS PARA MONITORES
 -- ========================================
 
--- Vista 1: Ver sesiones en curso
-    DROP VIEW IF EXISTS vw_Sesiones_En_Curso;
-    CREATE VIEW vw_Sesiones_En_Curso AS
-    SELECT 
-        s.Ses_Fecha,
-        s.Ses_HoraInicio,
-        s.Ses_HoraFin,
-        s.Com_Id,
-        s.Sal_Id,
-        s.Mon_Numero,
-        s.Est_Tiun,
-        s.Sal_Comentarios,
-        e.Est_Nombre,
-        e.Est_Apellido,
-        e.Est_Correo,
-        e.Pro_Codigo,
-        p.Pro_Nombre,
-        TIMESTAMPDIFF(MINUTE, s.Ses_HoraInicio, CURRENT_TIME()) AS Duracion_Minutos
-    FROM Sesion s
-    NATURAL JOIN Estudiante e
-    NATURAL JOIN Programa p
-    WHERE s.Ses_Fecha = CURRENT_DATE() 
-        and s.Ses_HoraFin is null
-    ORDER BY s.Ses_HoraInicio;
-    
--- Vista 2: Historial completo de sesiones con información del estudiante y monitor
-    DROP VIEW IF EXISTS vw_Historial_Sesiones;
-    CREATE VIEW vw_Historial_Sesiones AS
+-- Vista 1: Vista de sesiones con información del estudiante y monitor
+    DROP VIEW IF EXISTS vw_Sesiones;
+    CREATE VIEW vw_Sesiones AS
     SELECT 
         s.Ses_Fecha,
         s.Ses_HoraInicio,
@@ -118,30 +93,6 @@ USE SIM_BA;
     JOIN Facultad f ON p.Fac_Codigo = f.Fac_Codigo
     LEFT JOIN Monitor m ON s.Mon_Numero = m.Mon_Numero
     LEFT JOIN Estudiante em ON m.Est_Tiun = em.Est_Tiun
-    ORDER BY s.Ses_Fecha DESC, s.Ses_HoraInicio DESC;
-    
--- Vista 3: Sesiones con comentarios/incidentes
-    DROP VIEW IF EXISTS vw_Sesiones_Con_Incidentes;
-    CREATE VIEW vw_Sesiones_Con_Incidentes AS
-    SELECT 
-        s.Ses_Fecha,
-        s.Ses_HoraInicio,
-        s.Ses_HoraFin,
-        s.Com_Id,
-        s.Sal_Id,
-        s.Sal_Comentarios,
-        e.Est_Nombre,
-        e.Est_Apellido,
-        p.Pro_Nombre,
-        em.Est_Nombre AS Monitor_Nombre,
-        em.Est_Apellido AS Monitor_Apellido
-    FROM Sesion s
-    JOIN Estudiante e ON s.Est_Tiun = e.Est_Tiun
-    JOIN Programa p ON e.Pro_Codigo = p.Pro_Codigo
-    LEFT JOIN Monitor m ON s.Mon_Numero = m.Mon_Numero
-    LEFT JOIN Estudiante em ON m.Est_Tiun = em.Est_Tiun
-    WHERE s.Sal_Comentarios is not null
-        and s.Sal_Comentarios != ''
     ORDER BY s.Ses_Fecha DESC, s.Ses_HoraInicio DESC;
     
 -- Vista 4: Reporte de ocupación diaria
