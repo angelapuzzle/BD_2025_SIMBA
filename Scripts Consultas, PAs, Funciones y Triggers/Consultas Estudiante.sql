@@ -26,7 +26,7 @@ SELECT * FROM vw_com_disp;
 
 -- Crear una nueva sesión
 INSERT INTO sesion(Ses_Fecha, Ses_HoraInicio, Com_Id, Sal_Id, Mon_Numero, Est_Tiun) VALUES (@dia, @hora_inicial, @computador, @sala, @monitor, @tiun_estudiante);
-UPDATE vw_com_disp SETComp_Disponibilidad=0 WHERE Com_Id=@computador AND Sal_Id=@sala;
+UPDATE vw_com_disp SET Comp_Disponibilidad=0 WHERE Com_Id=@computador AND Sal_Id=@sala;
 select * from vw_com_disp;
 
 -- Cierra la sesión

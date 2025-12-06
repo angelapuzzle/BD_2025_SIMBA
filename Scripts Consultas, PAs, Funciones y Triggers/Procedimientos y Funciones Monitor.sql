@@ -47,12 +47,162 @@ BEGIN
         and (filtrarIncidentes is null or filtrarIncidentes = 0 or (Sal_Comentarios is not null and Sal_Comentarios != ''));
 END &&
 
--- Aquí irá lo de la Mariana
--- te quiero Mariana <3
+
+
+
+-- Ver estadísticas de uso por computador filtradas (Vista 5)       
+DROP PROCEDURE IF EXISTS sp_monVerEstadisticasComp;
+DELIMITER &&
+
+CREATE PROCEDURE sp_monVerEstadisticasComp(
+    IN idSala char(1), IN idComputador int
+)
+BEGIN
+    SELECT *
+    FROM vw_Estadisticas_Computadores
+        WHERE
+        (Sal_Id=idSala)
+        and (@computador is null or Com_Id=idcomputador);
+END &&
+-- Valores de prueba
+CALL sp_monVerEstadisticasComp('A',1234)
+
+
+-- ///////////////////////////////////////////////
+
+-- Ver historial de uso de un computador (Vista 2)
+-- Atributos: computador, sala, dias_atras (opcional)
+
+DROP PROCEDURE IF EXISTS sp_monVerHistorialPc;
+DELIMITER &&
+CREATE PROCEDURE sp_monVerHistorialPc(
+	IN idSala char(1), IN idComputador int,
+    IN diasAtras int
+)
+BEGIN
+    
+    SELECT 
+        Ses_Fecha,
+        Ses_HoraInicio,
+        Ses_HoraFin,
+        Est_Nombre,
+        Est_Apellido,
+        Monitor_Nombre,
+        Monitor_Apellido,
+        Duracion_Minutos,
+        Sal_Comentarios
+    FROM vw_Sesiones
+    WHERE Com_Id = idComputador 
+        and Sal_Id = idSala
+        and 
+        (
+         diasAtras is null or  Ses_Fecha >= DATE_SUB(CURRENT_DATE(), INTERVAL diasAtras DAY)
+        )
+    ORDER BY Ses_Fecha DESC, Ses_HoraInicio DESC;
+END &&
+CALL sp_monVerHistorialPc('A',1234, null);
+
+
+
+-- Inhabilitar o bloquear computador y cerrar sesión (Utiliza Vista 1)
+-- Atributos: inhabilitar (defecto false), sala, computador
+
+DROP PROCEDURE IF EXISTS sp_compHabilitarInhabilitar;
+DELIMITER &&
+-- Ver sesiones en curso (Vista 1)
+CREATE PROCEDURE sp_compHabilitarInhabilitar(
+    IN inhabilitar tinyint, IN idSala char(1), IN idComputador int
+)
+BEGIN
+    UPDATE Sesion
+    SET Ses_HoraFin = current_time()
+    WHERE (
+        Sal_Id=idSala
+        and Com_Id=idComputador
+        and Ses_Fecha = CURRENT_DATE()
+        and Ses_HoraFin is null
+    );
+    
+    UPDATE Computador
+    SET Comp_Disponibilidad = IF(@inhabilitar, null, 1)
+    WHERE (
+        Com_Id=idComputado and Sal_Id=idSala
+    );
+    
+    -- Verificar
+    SELECT * FROM vw_Sesiones_En_Curso;
+    SELECT * FROM Computador WHERE Com_Id=@computador;
+    
+END &&
+
+-- Agregar comentario a una sesión
+-- Atributos: fecha, hora_inicio, computador, sala, comentario
+DROP PROCEDURE IF EXISTS sp_monVerSesionesActuales;
+DELIMITER &&
+-- Ver sesiones en curso (Vista 1)
+CREATE PROCEDURE sp_monVerSesionesActuales(
+    IN fechaSesion date, IN horaInicial time, IN idComputador int,
+    IN idSala char(1), IN comentario varchar(45)
+)
+BEGIN
+    
+    UPDATE Sesion SET Sal_Comentarios=comentario
+    WHERE Ses_Fecha=fechaSesion and Ses_HoraInicio=horaInicial and Com_Id=idCmputador and Sal_Id=idSala;
+    
+    -- Verificar
+    SELECT * FROM Sesion
+    WHERE Ses_Fecha=fechaSesion and Ses_HoraInicio=horaInicial and Com_Id=idCmputador and Sal_Id=idSala;
+
+   
+END &&
+
+
+
+
+
 
 -- // ==========================================
 -- // Reserva de salas 
 -- // ==========================================
+
+-- Buscar empleado en el sistema
+-- Atributos (todos opcionales): tiun_empleado, nombre_empleado, apellido_empleado, correo_empleado
+
+DROP PROCEDURE IF EXISTS sp_buscarEmpleado;
+DELIMITER &&
+	CREATE PROCEDURE sp_buscarEmpleado(
+		IN tiunEmpleado int, IN nombreEmpleado varchar(45), IN apellidoEmpleado varchar(45),
+		IN correoEmpleado varchar(45)
+	)
+	BEGIN
+		 SELECT *
+		FROM Empleado
+		WHERE
+			(tiunEmpleado is null or Emp_Tiun LIKE CONCAT(tiunEmpleado, '%'))
+			and (nombreEmpleado is null or Emp_Nombre LIKE CONCAT('%', nombreEmpleado, '%'))
+			and (apellidoEmpleado is null or Emp_Apellido LIKE CONCAT('%', apellidoEmpleado, '%'))
+			and (correoEmpleado is null or Emp_Correo LIKE CONCAT(correoEmpleado, '%'));
+
+
+END &&
+-- Inserción de nuevos empleados
+-- Atributos: tiun_empleado, nombre_empleado, apellido_empleado, correo_empleado, docente_planta, funcionario_cargo, facultad_codigo
+DROP PROCEDURE IF EXISTS sp_monVerSesionesActuales;
+DELIMITER &&
+
+-- Ver sesiones en curso (Vista 1)
+CREATE PROCEDURE sp_monNuevoEmpleado(
+    IN tiunEmpleado int, IN nombreEmpleado varchar(45), IN apellidoEmpleado varchar(45),
+    IN correoEmpleado varchar(45), IN docentePlanta tinyint, IN funcionarioCargo varchar(45),
+    IN facultadCodigo varchar(70)
+)
+BEGIN
+    INSERT INTO Empleado VALUES(tiunEmpleado, nombreEmpleado, apellidoEmpleado, correoEmpleado, docentePlanta, funcionarioCargo, facultadCodigo);
+    
+    -- Verificar
+    SELECT * FROM Empleado WHERE Emp_Tiun=tiunEmpleado;
+    
+END &&
 
 DELIMITER &&
 

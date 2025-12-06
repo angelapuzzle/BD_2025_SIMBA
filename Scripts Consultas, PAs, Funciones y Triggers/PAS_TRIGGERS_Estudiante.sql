@@ -1,4 +1,4 @@
-use museo;
+use sim_ba;
 
 drop trigger if exists tr_nuevaSesion
 DELIMITER &&
