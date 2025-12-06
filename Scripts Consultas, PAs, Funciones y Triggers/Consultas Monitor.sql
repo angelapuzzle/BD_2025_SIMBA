@@ -301,22 +301,13 @@ use sim_ba;
     WHERE Sal_Id=@sala AND Comp_Disponibilidad is not null;
     
     -- Cerrar sesiones activas de todos los computadores de la sala
-    CREATE TEMPORARY TABLE tmp_sesiones
-    SELECT Ses_Fecha, Ses_HoraInicio, Com_Id, Sal_Id
-    FROM vw_Sesiones_En_Curso
-    WHERE Sal_Id=@sala and Com_Id IN (
-        SELECT Com_Id
-        FROM Computador
-        WHERE Sal_Id=@sala AND Comp_Disponibilidad is not null
-    );
-    
     UPDATE Sesion
     SET Ses_HoraFin = current_time()
-    WHERE (Ses_Fecha, Ses_HoraInicio, Com_Id, Sal_Id) IN (
-        SELECT * FROM tmp_sesiones
+    WHERE (
+        Sal_Id=@sala
+        and Ses_Fecha = CURRENT_DATE()
+        and Ses_HoraFin is null
     );
-    
-    DROP TEMPORARY TABLE tmp_sesiones;
     
     -- Verificar
     SELECT * FROM vw_Ocupacion_Salas;
