@@ -122,25 +122,20 @@ use sim_ba;
     SET @sala = 'C';
     SET @computador = 3245;
     
-    
-    CREATE TEMPORARY TABLE tmp_sesiones
-    SELECT Ses_Fecha, Ses_HoraInicio, Com_Id, Sal_Id
-    FROM vw_Sesiones_En_Curso
-    WHERE Sal_Id=@sala and Com_Id=@computador;
-    
     UPDATE Sesion
     SET Ses_HoraFin = current_time()
-    WHERE (Ses_Fecha, Ses_HoraInicio, Com_Id, Sal_Id) IN (
-        SELECT * FROM tmp_sesiones
+    WHERE (
+        Sal_Id=@sala
+        and Com_Id=@computador
+        and Ses_Fecha = CURRENT_DATE()
+        and Ses_HoraFin is null
     );
     
     UPDATE Computador
     SET Comp_Disponibilidad = IF(@inhabilitar, null, 1)
-    WHERE (Com_Id, Sal_Id) IN (
-        SELECT Com_Id, Sal_Id FROM tmp_Sesiones
+    WHERE (
+        Com_Id=@computador and Sal_Id=@sala
     );
-    
-    DROP TEMPORARY TABLE tmp_sesiones;
     
     -- Verificar
     SELECT * FROM vw_Sesiones_En_Curso;
