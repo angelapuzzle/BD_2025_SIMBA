@@ -312,7 +312,7 @@ use sim_ba;
     -- Verificar
     SELECT * FROM vw_Ocupacion_Salas;
     SELECT * FROM Computador WHERE Sal_Id=@sala;
-    SELECT * FROM vw_Sesiones_En_Curso;
+    SELECT * FROM vw_Sesiones WHERE Ses_Fecha = CURRENT_DATE() and Ses_HoraFin is null;
     
     
 -- Habilitar sala manualmente
