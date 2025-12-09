@@ -3,6 +3,7 @@
 
     grant execute on procedure sim_ba.sp_nuevaSesion to 'Estudiante'@'localhost';
     grant execute on procedure sim_ba.sp_cerrarSesion to 'Estudiante'@'localhost';
+    grant execute on procedure sim_ba.sp_añadirEstudiante to 'estudiante'@'localhost';
     grant select, update on sim_ba.vw_com_disp to 'Estudiante'@'localhost';
     
 
