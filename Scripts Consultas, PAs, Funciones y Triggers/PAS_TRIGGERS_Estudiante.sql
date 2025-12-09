@@ -19,7 +19,7 @@ BEGIN
 END &&
 DELIMITER ;
 
-drop procedure if exists sp_nuevaSesión;
+drop procedure if exists sp_nuevaSesion;
 DELIMITER &&
 CREATE PROCEDURE sp_nuevaSesion (tiun bigint, fecha date, hora time, sala char(1), compu int)
 BEGIN
@@ -37,7 +37,7 @@ BEGIN
 END &&
 DELIMITER ;
 
-drop procedure if exists sp_cerrarSesión;
+drop procedure if exists sp_cerrarSesion;
 DELIMITER &&
 CREATE PROCEDURE sp_cerrarSesion (tiun bigint, fecha date, hora time, sala char(1), compu int)
 BEGIN
