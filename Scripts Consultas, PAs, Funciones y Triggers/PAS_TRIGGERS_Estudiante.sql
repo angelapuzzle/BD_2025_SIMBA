@@ -23,9 +23,17 @@ drop procedure if exists sp_nuevaSesión;
 DELIMITER &&
 CREATE PROCEDURE sp_nuevaSesion (tiun bigint, fecha date, hora time, sala char(1), compu int)
 BEGIN
+    declare existe_est boolean;
 	declare mon int;
+    DECLARE msg varchar(255);
+    set existe_est = (select exists (select 1 from estudiante where Est_Tiun));
     select mon_numero into mon from Turno_Mon where Tur_fecha=fecha;
-    insert into sesion (ses_fecha, ses_horaInicio, com_id, sal_id, mon_numero, est_tiun) values (fecha, hora, compu, sala, mon, tiun);
+    IF (existe_est=1) THEN
+		insert into sesion (ses_fecha, ses_horaInicio, com_id, sal_id, mon_numero, est_tiun) values (fecha, hora, compu, sala, mon, tiun);
+	ELSE
+		SET msg = concat('El estudiante con tiun ', tiun,' no se encuentra en la base de datos');
+        SIGNAL sqlstate '45000' SET message_text = msg;
+	END IF;
 END &&
 DELIMITER ;
 
