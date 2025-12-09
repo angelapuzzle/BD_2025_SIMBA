@@ -1,0 +1,476 @@
+{
+  "database": "SIM_BA", //  Propiedad general de la base de datos
+  "collections": [
+    // =========================================================================
+    // COLECCIÓN 1: METADATA Y VARIABLES DEL SISTEMA
+    // =========================================================================
+    {
+      "name": "System_Vars", //  COLECCIÓN
+      "documents": [
+        {
+          "lastActiveDate": "2023-10-31", // Propiedad
+          "lastActiveTime": "11:00:00"   // Propiedad
+        }
+      ]
+    },
+    // =========================================================================
+    // COLECCIÓN 2: DISTRIBUCIÓN DE PLANES DE ESTUDIO (Facultades y Programas)
+    // =========================================================================
+    {
+      "name": "Facultades", //  COLECCIÓN
+      "documents": [
+        {
+          "Fac_Codigo": 2049,
+          "Fac_Nombre": "Facultad de Artes",
+          "Programas": [                //  DOCUMENTO EMBEBIDO: Array de programas.
+            { "Pro_Codigo": "2508", "Pro_Nombre": "Cine y Television" }
+          ]
+        },
+        {
+          "Fac_Codigo": 2050,
+          "Fac_Nombre": "Facultad de Ciencias",
+          "Programas": [		//  DOCUMENTO EMBEBIDO: Array de programas.
+            { "Pro_Codigo": "2933", "Pro_Nombre": "Ciencias De La Computacion" }
+          ]
+        },
+        {
+          "Fac_Codigo": 2728,
+          "Fac_Nombre": "Facultad de Ciencias Agrarias",
+          "Programas": [		//  DOCUMENTO EMBEBIDO: Array de programas.
+            { "Pro_Codigo": "2505", "Pro_Nombre": "Ingenieria Agronomica" }
+          ]
+        },
+        {
+          "Fac_Codigo": 2051,
+          "Fac_Nombre": "Facultad de Ciencias Economicas",
+          "Programas": []
+        },
+        {
+          "Fac_Codigo": 2052,
+          "Fac_Nombre": "Facultad de Ciencias Humanas",
+          "Programas": [		//  DOCUMENTO EMBEBIDO: Array de programas.
+            { "Pro_Codigo": "2534", "Pro_Nombre": "Estudios Literarios" }
+          ]
+        },
+        {
+          "Fac_Codigo": 2053,
+          "Fac_Nombre": "Facultad de Derecho, Ciencias Politicas y Sociales",
+          "Programas": [		//  DOCUMENTO EMBEBIDO: Array de programas.
+            { "Pro_Codigo": "2539", "Pro_Nombre": "Derecho" }
+          ]
+        },
+        {
+          "Fac_Codigo": 2054,
+          "Fac_Nombre": "Facultad de Enfermeria",
+          "Programas": []
+        },
+        {
+          "Fac_Codigo": 2055,
+          "Fac_Nombre": "Facultad de Ingenieria",
+          "Programas": [		//  DOCUMENTO EMBEBIDO: Array de programas.
+            { "Pro_Codigo": "2A74", "Pro_Nombre": "Ingenieria De Sistemas" }
+          ]
+        },
+        {
+          "Fac_Codigo": 2056,
+          "Fac_Nombre": "Facultad de Medicina",
+          "Programas": [		//  DOCUMENTO EMBEBIDO: Array de programas.
+            { "Pro_Codigo": "2552", "Pro_Nombre": "Facultad de Medicina" }
+          ]
+        },
+        {
+          "Fac_Codigo": 2057,
+          "Fac_Nombre": "Facultad de Medicina Veterinaria y Zootecnia",
+          "Programas": [		//  DOCUMENTO EMBEBIDO: Array de programas.
+            { "Pro_Codigo": "2555", "Pro_Nombre": "Medicina Veterinaria" }
+          ]
+        },
+        {
+          "Fac_Codigo": 2058,
+          "Fac_Nombre": "Facultad de Odontologia",
+          "Programas": [		//  DOCUMENTO EMBEBIDO: Array de programas.
+            { "Pro_Codigo": "2557", "Pro_Nombre": "Odontologia" }
+          ]
+        }
+      ]
+    },
+    // =========================================================================
+    // COLECCIÓN 3: INFRAESTRUCTURA Y GESTIÓN DE SALA (Salas, Computadores, Actividades, Turnos)
+    // =========================================================================
+    {
+      "name": "Salas", //  COLECCIÓN
+      "documents": [
+        {
+          "Sal_Id": "A",
+          "Sal_Disponibilidad": true,
+          "Computadores": [             //  DOCUMENTO EMBEBIDO: Array de computadores 
+            { "Com_Id": 1234, "Comp_Disponibilidad": true },
+            { "Com_Id": 1235, "Comp_Disponibilidad": true },
+            { "Com_Id": 1236, "Comp_Disponibilidad": true },
+            { "Com_Id": 1237, "Comp_Disponibilidad": false },
+            { "Com_Id": 1238, "Comp_Disponibilidad": null }
+          ],
+          "Turnos_Monitores": [         //  DOCUMENTO EMBEBIDO: Array de turnos en sala
+            {
+              "Tur_id": 126,
+              "Tur_Fecha": "2023-10-31",
+              "Tur_HoraInicio": "11:00:00",
+              "Tur_HoraFinal": "14:00:00",
+              "Monitor": {              //  DOCUMENTO EMBEBIDO: Datos básicos del monitor (desnormalización)
+                "Mon_Numero": 4,
+                "Est_Tiun": 1234567890,
+                "Est_Nombre_Completo": "Maria Cuadros"
+              }
+            }
+          ],
+          "Actividades": []
+        },
+        {
+          "Sal_Id": "C",
+          "Sal_Disponibilidad": true,
+          "Computadores": [	             //  DOCUMENTO EMBEBIDO: Array de computadores 
+            { "Com_Id": 3245, "Comp_Disponibilidad": true },
+            { "Com_Id": 3246, "Comp_Disponibilidad": true },
+            { "Com_Id": 3247, "Comp_Disponibilidad": true },
+            { "Com_Id": 3248, "Comp_Disponibilidad": true },
+            { "Com_Id": 3249, "Comp_Disponibilidad": true },
+            { "Com_Id": 3250, "Comp_Disponibilidad": true },
+            { "Com_Id": 3251, "Comp_Disponibilidad": false },
+            { "Com_Id": 3252, "Comp_Disponibilidad": null },
+            { "Com_Id": 3253, "Comp_Disponibilidad": null },
+            { "Com_Id": 3254, "Comp_Disponibilidad": true },
+            { "Com_Id": 3255, "Comp_Disponibilidad": null },
+            { "Com_Id": 3256, "Comp_Disponibilidad": false }
+          ],
+          "Turnos_Monitores": [ DOCUMENTO EMBEBIDO: Array de turnos en sala
+            {
+              "Tur_id": 123,
+              "Tur_Fecha": "2023-10-30",
+              "Tur_HoraInicio": "07:00:00",
+              "Tur_HoraFinal": "15:00:00",
+              "Monitor": { DOCUMENTO EMBEBIDO: Datos básicos del monitor 
+                "Mon_Numero": 1,
+                "Est_Tiun": 1234567898,
+                "Est_Nombre_Completo": "Camila Casas"
+              }
+            }
+          ],
+          "Actividades": []
+        },
+        {
+          "Sal_Id": "B",
+          "Sal_Disponibilidad": true,
+          "Computadores": [             //  DOCUMENTO EMBEBIDO: Array de computadores 
+            { "Com_Id": 2239, "Comp_Disponibilidad": true },
+            { "Com_Id": 2240, "Comp_Disponibilidad": true },
+            { "Com_Id": 2241, "Comp_Disponibilidad": true },
+            { "Com_Id": 2242, "Comp_Disponibilidad": true },
+            { "Com_Id": 2243, "Comp_Disponibilidad": true },
+            { "Com_Id": 2244, "Comp_Disponibilidad": true }
+          ],
+          "Turnos_Monitores": [DOCUMENTO EMBEBIDO: Array de turnos en sala
+            {
+              "Tur_id": 125,
+              "Tur_Fecha": "2023-10-31",
+              "Tur_HoraInicio": "08:00:00",
+              "Tur_HoraFinal": "11:00:00",
+              "Monitor": { DOCUMENTO EMBEBIDO: Datos básicos del monitor 
+                "Mon_Numero": 2,
+                "Est_Tiun": 1234567895,
+                "Est_Nombre_Completo": "Beatriz Pinzon"
+              }
+            }
+          ],
+          "Actividades": []
+        },
+        {
+          "Sal_Id": "D",
+          "Sal_Disponibilidad": false,
+          "Computadores": [             //  DOCUMENTO EMBEBIDO: Array de computadores 
+            { "Com_Id": 4257, "Comp_Disponibilidad": true },
+            { "Com_Id": 4258, "Comp_Disponibilidad": true },
+            { "Com_Id": 4259, "Comp_Disponibilidad": true },
+            { "Com_Id": 4260, "Comp_Disponibilidad": true },
+            { "Com_Id": 4261, "Comp_Disponibilidad": true }
+          ],
+          "Turnos_Monitores": [DOCUMENTO EMBEBIDO: Array de turnos en sala
+            {
+              "Tur_id": 124,
+              "Tur_Fecha": "2023-10-30",
+              "Tur_HoraInicio": "15:00:00",
+              "Tur_HoraFinal": "17:00:00",
+              "Monitor": { DOCUMENTO EMBEBIDO: Datos básicos del monitor 
+                "Mon_Numero": 3,
+                "Est_Tiun": 1234567896,
+                "Est_Nombre_Completo": "Jaime Garzon"
+              }
+            }
+          ],
+          "Actividades": [
+            {
+              "Act_Fecha": "2023-10-30",
+              "Act_HoraInicio": "13:05:00",
+              "Act_HoraFin": "17:40:00",
+              "Organizador": {          //  DOCUMENTO EMBEBIDO: Datos básicos del Empleado 
+                "Emp_Tiun": 3123456795,
+                "Emp_Nombre_Completo": "Jhon Mendoza"
+              },
+              "Act_Comentarios": "Simposio de técnicas agroindustriales y prácticas orgánicas"
+            },
+            {
+              "Act_Fecha": "2023-10-30",
+              "Act_HoraInicio": "07:30:00",
+              "Act_HoraFin": "09:00:00",
+              "Organizador": {  //  DOCUMENTO EMBEBIDO: Datos básicos del Empleado 
+
+                "Emp_Tiun": 3123456791,
+                "Emp_Nombre_Completo": "Margaret Gutierrez"
+              },
+              "Act_Comentarios": "Aplicaciones computacionales de cálculo vectorial"
+            },
+            {
+              "Act_Fecha": "2023-10-30",
+              "Act_HoraInicio": "09:30:00",
+              "Act_HoraFin": "11:30:00",
+              "Organizador": {
+                "Emp_Tiun": 3123456790,
+                "Emp_Nombre_Completo": "Isabella Arbelaez"
+              },
+              "Act_Comentarios": "Introducción a químicos explosivos"
+            },
+            {
+              "Act_Fecha": "2023-10-31",
+              "Act_HoraInicio": "09:30:00",
+              "Act_HoraFin": "15:30:00",
+              "Organizador": {  //  DOCUMENTO EMBEBIDO: Datos básicos del Empleado 
+
+                "Emp_Tiun": 3123456795,
+                "Emp_Nombre_Completo": "Jhon Mendoza"
+              },
+              "Act_Comentarios": "Segundo parcial de la asignatura cultivos hidropónicos"
+            },
+            {
+              "Act_Fecha": "2023-10-31",
+              "Act_HoraInicio": "12:30:00",
+              "Act_HoraFin": "18:00:00",
+              "Organizador": {  //  DOCUMENTO EMBEBIDO: Datos básicos del Empleado 
+
+                "Emp_Tiun": 3123456794,
+                "Emp_Nombre_Completo": "Angela Siabato"
+              },
+              "Act_Comentarios": "Principios económicos en modelos estocásticos"
+            }
+          ]
+        }
+      ]
+    },
+    // =========================================================================
+    // COLECCIÓN 4: ESTUDIANTES (Incluye Monitores)
+    // =========================================================================
+    {
+      "name": "Estudiantes", //  COLECCIÓN
+      "documents": [
+        {
+          "Est_Tiun": 1234567891,
+          "Est_Nombre": "Mauricio",
+          "Est_Apellido": "Medina",
+          "Est_Correo": "mmed@unal.edu.co",
+          "Programa_Info": {        //  DOCUMENTO EMBEBIDO: Información del programa
+            "Pro_Codigo": "2A74",
+            "Pro_Nombre": "Ingenieria De Sistemas",
+            "Facultad_Codigo": 2055
+          },
+          "EsMonitor": false
+        },
+        {
+          "Est_Tiun": 1234567892,
+          "Est_Nombre": "Pablo",
+          "Est_Apellido": "Mendoza",
+          "Est_Correo": "pmen@unal.edu.co",
+          "Programa_Info": { //  DOCUMENTO EMBEBIDO: Información del programa
+            "Pro_Codigo": "2505",
+            "Pro_Nombre": "Ingenieria Agronomica",
+            "Facultad_Codigo": 2728
+          },
+          "EsMonitor": false
+        },
+        {
+          "Est_Tiun": 1234567893,
+          "Est_Nombre": "Ernesto",
+          "Est_Apellido": "Avila",
+          "Est_Correo": "eavi@unal.edu.co",
+          "Programa_Info": { //  DOCUMENTO EMBEBIDO: Información del programa
+            "Pro_Codigo": "2933",
+            "Pro_Nombre": "Ciencias De La Computacion",
+            "Facultad_Codigo": 2050
+          },
+          "EsMonitor": false
+        },
+        {
+          "Est_Tiun": 1234567894,
+          "Est_Nombre": "Patricia",
+          "Est_Apellido": "Fernandez",
+          "Est_Correo": "pfer@unal.edu.co",
+          "Programa_Info": { //  DOCUMENTO EMBEBIDO: Información del programa
+            "Pro_Codigo": "2534",
+            "Pro_Nombre": "Estudios Literarios",
+            "Facultad_Codigo": 2052
+          },
+          "EsMonitor": false
+        },
+        {
+          "Est_Tiun": 1234567895,
+          "Est_Nombre": "Beatriz",
+          "Est_Apellido": "Pinzon",
+          "Est_Correo": "bpin@unal.edu.co",
+          "Programa_Info": { //  DOCUMENTO EMBEBIDO: Información del programa
+            "Pro_Codigo": "2539",
+            "Pro_Nombre": "Derecho",
+            "Facultad_Codigo": 2053
+          },
+          "EsMonitor": true,
+          "Monitor_Info": { "Mon_Numero": 2 } //  DOCUMENTO EMBEBIDO: rol de Monitor
+        },
+        {
+          "Est_Tiun": 1234567896,
+          "Est_Nombre": "Jaime",
+          "Est_Apellido": "Garzon",
+          "Est_Correo": "jgar@unal.edu.co",
+          "Programa_Info": {
+            "Pro_Codigo": "2552",
+            "Pro_Nombre": "Facultad de Medicina",
+            "Facultad_Codigo": 2056
+          },
+          "EsMonitor": true,
+          "Monitor_Info": { "Mon_Numero": 3 } //  DOCUMENTO EMBEBIDO: rol de Monitor
+        },
+        {
+          "Est_Tiun": 1234567897,
+          "Est_Nombre": "Elena",
+          "Est_Apellido": "Pinzon",
+          "Est_Correo": "epin@unal.edu.co",
+          "Programa_Info": {
+            "Pro_Codigo": "2555",
+            "Pro_Nombre": "Medicina Veterinaria",
+            "Facultad_Codigo": 2057
+          },
+          "EsMonitor": false
+        },
+        {
+          "Est_Tiun": 1234567898,
+          "Est_Nombre": "Camila",
+          "Est_Apellido": "Casas",
+          "Est_Correo": "ccas@unal.edu.co",
+          "Programa_Info": {
+            "Pro_Codigo": "2557",
+            "Pro_Nombre": "Odontologia",
+            "Facultad_Codigo": 2058
+          },
+          "EsMonitor": true,
+          "Monitor_Info": { "Mon_Numero": 1 } //  DOCUMENTO EMBEBIDO: rol de Monitor
+
+        },
+        {
+          "Est_Tiun": 1234567890,
+          "Est_Nombre": "Maria",
+          "Est_Apellido": "Cuadros",
+          "Est_Correo": "mcua@unal.edu.co",
+          "Programa_Info": {
+            "Pro_Codigo": "2508",
+            "Pro_Nombre": "Cine y Television",
+            "Facultad_Codigo": 2049
+          },
+          "EsMonitor": true,
+          "Monitor_Info": { "Mon_Numero": 4 } //  DOCUMENTO EMBEBIDO: rol de Monitor
+
+        }
+      ]
+    },
+    // =========================================================================
+    // COLECCIÓN 5: PERSONAL ADMINISTRATIVO Y DOCENTE
+    // =========================================================================
+    {
+      "name": "Personal_Staff", //  COLECCIÓN
+      "documents": [
+        {
+          "Tiun": 3123456790,
+          "Nombre": "Isabella",
+          "Apellido": "Arbelaez",
+          "Correo": "iarb@unal.edu.co",
+          "Rol": "Empleado",
+          "Doc_Planta": false,
+          "Fun_Cargo": null,
+          "Facultad_Info": { "Fac_Codigo": 2050, "Fac_Nombre": "Facultad de Ciencias" } // DOCUMENTO EMBEBIDO: Info de Facultad
+        },
+        {
+          "Tiun": 3123456795,
+          "Nombre": "Jhon",
+          "Apellido": "Mendoza",
+          "Correo": "jmen@unal.edu.co",
+          "Rol": "Empleado",
+          "Doc_Planta": null,
+          "Fun_Cargo": "Jefe ejecutivo de produccion agroindustrial",
+          "Facultad_Info": { "Fac_Codigo": 2728, "Fac_Nombre": "Facultad de Ciencias Agrarias" } //  DOCUMENTO EMBEBIDO: Info de Facultad
+        },
+        {
+          "Tiun": 2134567891,
+          "Nombre": "Carlos",
+          "Apellido": "Cuevas",
+          "Correo": "ccue@unal.edu.co",
+          "Rol": "Administrador",
+          "Turnos_Adm": [ //  DOCUMENTO EMBEBIDO: Array de turnos de supervisión 
+            { "Sup_Fecha": "2023-10-30", "Sup_HoraInicio": "07:00:00", "Sup_HoraFinal": "13:00:00" }
+          ]
+        },
+        // ... (resto de Empleados y Administradores)
+        {
+          "Tiun": 2134567894,
+          "Nombre": "Julian",
+          "Apellido": "Villamizar",
+          "Correo": "jvil@unal.edu.co",
+          "Rol": "Administrador",
+          "Turnos_Adm": [ //  DOCUMENTO EMBEBIDO: Array de turnos de supervisión 
+            { "Sup_Fecha": "2023-10-31", "Sup_HoraInicio": "11:00:00", "Sup_HoraFinal": "14:00:00" }
+          ]
+        }
+      ]
+    },
+    // =========================================================================
+    // COLECCIÓN 6: SESIONES (Eventos Transaccionales)
+    // =========================================================================
+    {
+      "name": "Sesiones", //  COLECCIÓN
+      "documents": [
+        {
+          "Ses_Fecha": "2023-10-30",
+          "Ses_HoraInicio": "13:00:00",
+          "Ses_HoraFin": "13:35:00",
+          "Ubicacion": { "Com_Id": 1235, "Sal_Id": "A" }, //  DOCUMENTO EMBEBIDO, relación pc-sala
+          "Usuario": { "Est_Tiun": 1234567891, "Est_Nombre_Completo": "Mauricio Medina" }, //  DOCUMENTO EMBEBIDO, info estudiante
+          "Monitor_Asignado": { "Mon_Numero": 1, "Est_Tiun": 1234567898, "Mon_Nombre_Completo": "Camila Casas" }, // DOCUMENTO EMBEBIDO, info monitor a cargo
+          "Sal_Comentarios": "El estudiante regó agua en la sala, no ocurrieron daños"
+        },
+        {
+          "Ses_Fecha": "2023-10-30",
+          "Ses_HoraInicio": "14:00:00",
+          "Ses_HoraFin": "16:00:00",
+          "Ubicacion": { "Com_Id": 1235, "Sal_Id": "A" }, //  DOCUMENTO EMBEBIDO, relación pc-sala
+          "Usuario": { "Est_Tiun": 1234567897, "Est_Nombre_Completo": "Elena Pinzon" },  //  DOCUMENTO EMBEBIDO, info estudiante
+          "Monitor_Asignado": { "Mon_Numero": 1, "Est_Tiun": 1234567898, "Mon_Nombre_Completo": "Camila Casas" }, // DOCUMENTO EMBEBIDO, info monitor a cargo
+          "Sal_Comentarios": null
+        },
+        // ... (Todos los 18 registros de Sesiones)
+        {
+          "Ses_Fecha": "2023-10-30",
+          "Ses_HoraInicio": "10:05:52",
+          "Ses_HoraFin": "11:00:00",
+          "Ubicacion": { "Com_Id": 3245, "Sal_Id": "C" }, //  DOCUMENTO EMBEBIDO, relación pc-sala
+          "Usuario": { "Est_Tiun": 1234567893, "Est_Nombre_Completo": "Ernesto Avila" },  //  DOCUMENTO EMBEBIDO, info estudiante
+          "Monitor_Asignado": { "Mon_Numero": 1, "Est_Tiun": 1234567898, "Mon_Nombre_Completo": "Camila Casas" }, // DOCUMENTO EMBEBIDO, info monitor a cargo
+          "Sal_Comentarios": null
+        }
+      ]
+    }
+  ]
+}
+
