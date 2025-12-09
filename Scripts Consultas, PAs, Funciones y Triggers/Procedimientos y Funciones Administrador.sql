@@ -42,7 +42,7 @@ CREATE PROCEDURE sp_verSupervisiones(
 )
 BEGIN
     SELECT *
-    FROM vw_Turnos_Monitores
+    FROM vw_Supervisiones_Admin
     WHERE
         (diaSupervision is null or Sup_Fecha=diaSupervision)
         and (horaInicial is null or horaInicial<Sup_HoraFinal)

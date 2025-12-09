@@ -107,7 +107,7 @@ BEGIN
     UPDATE Computador
     SET Comp_Disponibilidad = IF(@inhabilitar, null, 1)
     WHERE (
-        Com_Id=idComputado and Sal_Id=idSala
+        Com_Id=idComputador and Sal_Id=idSala
     );
 END &&
 
@@ -119,7 +119,7 @@ CREATE PROCEDURE sp_agregarComentarioSesion(
 )
 BEGIN
     UPDATE Sesion SET Sal_Comentarios=comentario
-    WHERE Ses_Fecha=fechaSesion and Ses_HoraInicio=horaInicial and Com_Id=idCmputador and Sal_Id=idSala;
+    WHERE Ses_Fecha=fechaSesion and Ses_HoraInicio=horaInicial and Com_Id=idComputador and Sal_Id=idSala;
 END &&
 
 DELIMITER ;
