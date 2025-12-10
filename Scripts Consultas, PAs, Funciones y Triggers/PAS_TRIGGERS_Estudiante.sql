@@ -40,7 +40,7 @@ BEGIN
 END &&
 DELIMITER ;
 
-drop procedure if exists sp_añadirEstudiante;
+drop procedure if exists sp_anadirEstudiante;
 DELIMITER &&
 CREATE PROCEDURE sp_añadirEstudiante (tiun bigint, nombre varchar(45), apellido varchar(45), correo varchar(45), programa char(4))
 BEGIN
