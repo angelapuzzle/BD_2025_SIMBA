@@ -106,7 +106,7 @@ END &&
 -- Ver historial de turnos filtrado por atributos
 DROP PROCEDURE IF EXISTS sp_verTurnosAdmins &&
 CREATE PROCEDURE sp_verTurnosAdmins(
-    IN diaSupervision date, IN horaInicial time, IN horaFinal time
+    IN diaSupervision date, IN horaInicial time, IN horaFinal time,
     IN tiunAdmin bigint, IN nombreAdmin varchar(45), IN apellidoAdmin varchar(45),
     IN estadoTurno varchar(20)
 )
