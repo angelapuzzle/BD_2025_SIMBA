@@ -3,12 +3,12 @@
 
     grant execute on procedure sim_ba.sp_nuevaSesion to 'Estudiante'@'localhost';
     grant execute on procedure sim_ba.sp_cerrarSesion to 'Estudiante'@'localhost';
-    grant execute on procedure sim_ba.sp_añadirEstudiante to 'estudiante'@'localhost';
+    grant execute on procedure sim_ba.sp_añadirEstudiante to 'Estudiante'@'localhost';
     grant select, update on sim_ba.vw_com_disp to 'Estudiante'@'localhost';
     
 
 -- CREACIÓN DEL USUARIO MONITOR
-    create user 'Monitor 1'@'localhost' identified by 'securepass1';
+    create user 'Monitor1'@'localhost' identified by 'securepass1';
 
     grant execute on procedure sim_ba.sp_verSesionesActuales to 'Monitor1'@'localhost';
     grant execute on procedure sim_ba.sp_verSesionesHistorial to 'Monitor1'@'localhost';
