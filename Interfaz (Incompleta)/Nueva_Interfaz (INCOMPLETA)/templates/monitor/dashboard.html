@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Monitor{% endblock %}
+
+{% block navbar_right %}
+<span class="text-white fw-bold me-3">Monitor: {{ session.get('monitor_num') }} | Turno: {{ session.get('monitor_turno_id') }} | Sala: {{ sala_id }}</span>
+<a href="{{ url_for('monitor_logout') }}" class="btn btn-sm btn-outline-light">Cerrar Turno</a>
+{% endblock %}
+
+{% block content %}
+<h2 class="mon-title mb-4">Gestión de Sesiones Activas en Sala {{ sala_id }}</h2>
+
+{% endblock %}

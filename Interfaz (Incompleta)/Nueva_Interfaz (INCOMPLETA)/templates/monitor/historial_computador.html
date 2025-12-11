@@ -1,0 +1,77 @@
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="alert alert-{{ category }}" role="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% if sala_id and dashboard and dashboard.computadores %}
+    <div class="card shadow p-4 mb-4">
+        <h5 class="card-title">Estado General de la Sala {{ sala_id }}</h5>
+        <div class="row text-center mb-3">
+            <div class="col-md-4">
+                <p class="fw-bold">Activas: <span class="text-primary">{{ dashboard.cabecera.Sesiones_Activas }}</span></p>
+            </div>
+            <div class="col-md-4">
+                <p class="fw-bold">Disponibles: <span class="text-success">{{ dashboard.cabecera.Computadores_Disponibles }}</span> de {{ dashboard.cabecera.Computadores_Totales }}</p>
+            </div>
+            <div class="col-md-4">
+                <p class="fw-bold">Ocupación: {{ ((dashboard.cabecera.Sesiones_Activas / dashboard.cabecera.Computadores_Totales) * 100) | round(1) }}%</p>
+            </div>
+        </div>
+        
+        <hr>
+        
+        <h5 class="card-title mt-4">Computadores (Presione para Historial)</h5>
+        <div class="d-flex flex-wrap gap-2">
+            {% for compu in dashboard.computadores %}
+                {% set estado_class = 'danger' if compu.Comp_Disponibilidad == 0 else 'success' if compu.Comp_Disponibilidad == 1 else 'warning' %}
+                
+                <a href="{{ url_for('monitor_historial_computador', sala=sala_id, compu=compu.Com_Id) }}" 
+                    class="btn btn-{{ estado_class }} btn-sm"
+                    style="width: 60px; height: 40px; font-weight: bold;">
+                    {{ compu.Com_Id }} 
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <h5 class="mt-5">Detalle de Sesiones Activas (Listado Filtrable)</h5>
+    {% if sesiones_activas %}
+        <table class="table table-striped table-hover table-sm">
+            <thead>
+                <tr>
+                    <th>Comp.</th>
+                    <th>Hora Inicio</th>
+                    <th>Estudiante (TIUN)</th>
+                    <th>Nombre</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sesion in sesiones_activas %}
+                <tr>
+                    <td>{{ sesion.Com_Id }}</td>
+                    <td>{{ sesion.Ses_HoraInicio }}</td>
+                    <td>{{ sesion.Est_Tiun }}</td>
+                    <td>{{ sesion.Est_Nombre }} {{ sesion.Est_Apellido }}</td>
+                    <td>
+                        <form method="POST" action="{{ url_for('monitor_cerrar_sesion', tiun=sesion.Est_Tiun) }}" 
+                            onsubmit="return confirm('¿Está seguro de cerrar remotamente la sesión del estudiante {{ sesion.Est_Nombre }} ({{ sesion.Est_Tiun }})?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Cerrar Sesión</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <div class="alert alert-info">No hay sesiones activas actualmente en la Sala {{ sala_id }}.</div>
+    {% endif %}
+
+{% else %}
+    <div class="alert alert-warning">
+        Por favor, inicia tu turno para acceder al dashboard de tu sala asignada.
+    </div>
+{% endif %}

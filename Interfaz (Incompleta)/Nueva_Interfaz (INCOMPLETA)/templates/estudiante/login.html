@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Ingreso Estudiante{% endblock %}
+
+{% block content %}
+<div class="est-container" style="max-width: 400px; margin: 50px auto;">
+    <h2 class="est-title text-center mb-4">Ingreso Estudiante</h2>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} text-center" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="card shadow p-4 mb-4">
+        <form method="POST">
+            <div class="mb-3">
+                <label for="tiun" class="form-label">Número de TIUN</label>
+                <input type="number" name="tiun" id="tiun" class="form-control" 
+                    required placeholder="Ej: 1000123456" autofocus 
+                    value="{{ tiun_sesion if tiun_sesion else '' }}">
+            </div>
+            <button class="btn btn-success w-100">Continuar / Cerrar Sesión</button>
+        </form>
+    </div>
+</div>
+<div class="est-container mt-5">
+    {% if salas %}
+        <h2 class="est-title text-center mb-4">Selecciona un Computador</h2>
+        <p class="text-center text-muted">Haz clic en un equipo verde para iniciar sesión inmediatamente.</p>
+        <div class="salas-grid">
+            {% for sala in salas %}
+                <div class="sala-card">
+                    <div class="sala-header">
+                        <h3>Sala {{ sala.id }}</h3>
+                    </div>
+                    <div class="computadores-grid">
+                        {% for pc in sala.computadores %}
+                            <a href="{{ url_for('estudiante_crear_sesion', sala=sala.id, compu=pc.id) }}" 
+                                class="text-decoration-none">
+                                <div class="pc-card pc-libre">
+                                    <i class="bi bi-pc-display"></i><br>
+                                    {{ pc.id }}
+                                </div>
+                            </a>
+                        {% endfor %}
+                        {% if not sala.computadores %}
+                            <p class="text-muted text-center py-3">No hay equipos libres en esta sala.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center">
+            No se pudo cargar la disponibilidad de salas.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

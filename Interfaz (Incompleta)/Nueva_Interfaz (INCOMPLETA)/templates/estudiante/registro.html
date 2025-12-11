@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Registro Estudiante{% endblock %}
+
+{% block content %}
+<div class="est-container" style="max-width: 500px; margin: 50px auto;">
+    <h2 class="est-title text-center">Registro de Nuevo Estudiante</h2>
+    <p class="text-center text-muted">El TIUN ingresado no existe. Por favor regístrate.</p>
+    <div class="card shadow p-4">
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">TIUN</label>
+                <input type="number" name="tiun" value="{{ tiun }}" class="form-control" readonly>
+            </div>
+            <div class="mb-3">
+                <input name="nombre" class="form-control" placeholder="Nombre" required>
+            </div>
+            <div class="mb-3">
+                <input name="apellido" class="form-control" placeholder="Apellido" required>
+            </div>
+            <div class="mb-3">
+                <input type="email" name="correo" class="form-control" placeholder="Correo Institucional" required>
+            </div>
+            <div class="mb-3">
+                <input name="programa" class="form-control" placeholder="Código Programa (Ej: 2520)" required maxlength="4">
+            </div>
+            <button class="btn btn-primary w-100">Registrar y Volver</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

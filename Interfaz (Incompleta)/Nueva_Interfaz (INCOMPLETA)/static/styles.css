@@ -1,0 +1,123 @@
+/*
+Index
+*/
+.role-card {
+    background: white;
+    transition: 0.25s;
+    border: 1px solid #e0e0e0;
+}
+
+.role-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.icon-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+}
+
+/*
+Estudiante
+*/
+.est-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.est-title {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+/* GRID DE SALAS */
+
+.salas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+}
+
+/* TARJETA DE SALA  */
+
+.sala-card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 18px;
+    box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+    border: 3px solid #50C878; /* verde pastel */
+    transition: 0.3s;
+}
+
+.sala-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0px 6px 18px rgba(0,0,0,0.15);
+}
+
+.sala-inactiva {
+    border-color: #AAAAAA;
+    filter: grayscale(100%);
+    opacity: 0.65;
+}
+
+/* TEXTO DE SALA  */
+
+.sala-header {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.sala-header h3 {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+/* GRID DE COMPUTADORES  */
+
+.computadores-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+/*  TARJETAS DE COMPUTADOR  */
+
+.pc-card {
+    padding: 14px;
+    border-radius: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    transition: 0.2s;
+}
+
+.pc-libre {
+    background: #E9FFE9;
+    border: 2px solid #53D053;
+}
+
+.pc-ocupado {
+    background: #FFE5E5;
+    border: 2px solid #E06666;
+}
+
+.pc-card:hover {
+    transform: scale(1.05);
+}
+
+/* SALA NO DISPONIBLE  */
+
+.sala-cerrada {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 15px;
+    opacity: 0.7;
+}

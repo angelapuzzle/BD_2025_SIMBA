@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio de Turno Monitor{% endblock %}
+
+{% block content %}
+<div class="mon-container" style="max-width: 400px; margin: 50px auto;">
+    <h2 class="mon-title text-center mb-4 text-secondary">Iniciar Turno de Monitor</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} text-center" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="card shadow p-4">
+        <form method="POST">
+            <div class="mb-3">
+                <label for="mon_numero" class="form-label">Número de Monitor</label>
+                <input type="number" name="mon_numero" id="mon_numero" class="form-control" required placeholder="Ej: 1001" autofocus>
+            </div>
+            <div class="mb-3">
+                <label for="sala_id" class="form-label">Sala Asignada</label>
+                <select name="sala_id" id="sala_id" class="form-control" required>
+                    <option value="">Seleccione Sala</option>
+                    <option value="A">Sala A</option>
+                    <option value="B">Sala B</option>
+                    <option value="C">Sala C</option>
+                </select>
+            </div>
+            <button class="btn btn-primary w-100">Iniciar Turno</button>
+        </form>
+        <div class="text-center mt-3">
+            <a href="/" class="text-decoration-none">Volver al inicio</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

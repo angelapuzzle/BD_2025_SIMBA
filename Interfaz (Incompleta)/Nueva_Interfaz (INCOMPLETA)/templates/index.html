@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block navbar_right %}{% endblock %}
+{% block content %}
+
+<!-- ======= Contenedor principal ======= -->
+<div class="container mt-5">
+
+    <h2 class="text-center fw-bold mb-4" style="color:#1b5e20;">
+        Seleccione su Perfil
+    </h2>
+
+    <div class="row justify-content-center mt-4 g-4">
+
+        <!-- Card Administrador -->
+        <div class="col-md-3">
+            <a href="/admin" class="text-decoration-none">
+                <div class="role-card shadow-sm p-4 text-center rounded-4">
+                    <div class="icon-circle mb-3" style="background:#2e7d32;">
+                        <i class="bi bi-shield-lock text-white"></i>
+                    </div>
+                    <h5 class="fw-bold" style="color:#1b5e20;">Administrador</h5>
+                    <p class="text-muted small">Control total del sistema</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Card Monitor -->
+        <div class="col-md-3">
+            <a href="/monitor" class="text-decoration-none">
+                <div class="role-card shadow-sm p-4 text-center rounded-4">
+                    <div class="icon-circle mb-3" style="background:#4caf50;">
+                        <i class="bi bi-person-badge text-white"></i>
+                    </div>
+                    <h5 class="fw-bold" style="color:#1b5e20;">Monitor</h5>
+                    <p class="text-muted small">Gestión de actividades y sesiones</p>
+                </div>
+            </a>
+        </div>
+
+        <!-- Card Estudiante -->
+        <div class="col-md-3">
+            <a href="/estudiante" class="text-decoration-none">
+                <div class="role-card shadow-sm p-4 text-center rounded-4">
+                    <div class="icon-circle mb-3" style="background:#2196f3;">
+                        <i class="bi bi-person text-white"></i>
+                    </div>
+                    <h5 class="fw-bold" style="color:#0d47a1;">Estudiante</h5>
+                    <p class="text-muted small">Iniciar o finalizar sesión</p>
+                </div>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
