@@ -42,7 +42,7 @@ DELIMITER ;
 
 drop procedure if exists sp_anadirEstudiante;
 DELIMITER &&
-CREATE PROCEDURE sp_añadirEstudiante (tiun bigint, nombre varchar(45), apellido varchar(45), correo varchar(45), programa char(4))
+CREATE PROCEDURE sp_anadirEstudiante (tiun bigint, nombre varchar(45), apellido varchar(45), correo varchar(45), programa char(4))
 BEGIN
 	INSERT INTO estudiante VALUES (tiun, nombre, apellido, correo, programa);
 END &&
