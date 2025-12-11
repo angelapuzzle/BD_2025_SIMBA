@@ -4,7 +4,7 @@
 
 DELIMITER &&
 
--- Ver sesiones en curso con filtro (Vista 1)
+-- 1. Ver sesiones en curso con filtro (Vista 1)
 DROP PROCEDURE IF EXISTS sp_verSesionesActuales &&
 CREATE PROCEDURE sp_verSesionesActuales(
     IN horaInicial time, IN idSala char(1), IN idComputador int,
@@ -25,7 +25,7 @@ BEGIN
         and (Ses_Fecha = CURRENT_DATE() and Ses_HoraFin is null);
 END &&
 
--- Ver historial de sesiones con filtro (Vista 1)
+-- 2. Ver historial de sesiones con filtro (Vista 1)
 DROP PROCEDURE IF EXISTS sp_verSesionesHistorial &&
 CREATE PROCEDURE sp_verSesionesHistorial(
     IN dia date, IN horaInicial time, IN horaFinal time, IN idSala char(1), IN idComputador int,
@@ -47,7 +47,7 @@ BEGIN
         and (filtrarIncidentes is null or filtrarIncidentes = 0 or (Sal_Comentarios is not null and Sal_Comentarios != ''));
 END &&
 
--- Ver estadísticas de uso por computador filtradas (Vista 5)       
+-- 3. Ver estadísticas de uso por computador filtradas (Vista 5)       
 DROP PROCEDURE IF EXISTS sp_monVerEstadisticasComp &&
 CREATE PROCEDURE sp_monVerEstadisticasComp(
     IN idSala char(1), IN idComputador int
@@ -61,7 +61,7 @@ BEGIN
 END &&
 
 
--- Ver historial de uso de un computador (Vista 1)
+-- 4. Ver historial de uso de un computador (Vista 1)
 DROP PROCEDURE IF EXISTS sp_monVerHistorialPc &&
 CREATE PROCEDURE sp_monVerHistorialPc(
 	IN idSala char(1), IN idComputador int,
@@ -89,7 +89,7 @@ BEGIN
 END &&
 
 
--- Inhabilitar o bloquear computador y cerrar sesión
+-- 5. Inhabilitar o bloquear computador y cerrar sesión
 DROP PROCEDURE IF EXISTS sp_compHabilitarInhabilitar &&
 CREATE PROCEDURE sp_compHabilitarInhabilitar(
     IN inhabilitar tinyint, IN idSala char(1), IN idComputador int
@@ -111,7 +111,7 @@ BEGIN
     );
 END &&
 
--- Agregar comentario a una sesión
+-- 6. Agregar comentario a una sesión
 DROP PROCEDURE IF EXISTS sp_agregarComentarioSesion &&
 CREATE PROCEDURE sp_agregarComentarioSesion(
     IN fechaSesion date, IN horaInicial time, IN idComputador int,
@@ -130,7 +130,7 @@ DELIMITER ;
 
 DELIMITER &&
 
--- Buscar empleado en el sistema
+-- 7.  Buscar empleado en el sistema
 DROP PROCEDURE IF EXISTS sp_buscarEmpleado &&
 CREATE PROCEDURE sp_buscarEmpleado(
     IN tiunEmpleado int, IN nombreEmpleado varchar(45), IN apellidoEmpleado varchar(45),
@@ -146,7 +146,7 @@ BEGIN
         and (correoEmpleado is null or Emp_Correo LIKE CONCAT(correoEmpleado, '%'));
 END &&
 
--- Inserción de nuevos empleados
+-- 8. Inserción de nuevos empleados
 DROP PROCEDURE IF EXISTS sp_monNuevoEmpleado &&
 CREATE PROCEDURE sp_monNuevoEmpleado(
     IN tiunEmpleado int, IN nombreEmpleado varchar(45), IN apellidoEmpleado varchar(45),
@@ -157,7 +157,7 @@ BEGIN
     INSERT INTO Empleado VALUES(tiunEmpleado, nombreEmpleado, apellidoEmpleado, correoEmpleado, docentePlanta, funcionarioCargo, facultadCodigo);
 END &&
 
--- Actualización datos empleados
+-- 9. Actualización datos empleados
 DROP PROCEDURE IF EXISTS sp_monEditarEmpleado &&
 CREATE PROCEDURE sp_monEditarEmpleado(
     IN tiunEmpleado int, IN nombreEmpleado varchar(45), IN apellidoEmpleado varchar(45),
@@ -178,7 +178,7 @@ BEGIN
     END IF;
 END &&
 
--- Ver reservas filtradas (Vista 6)
+-- 10. Ver reservas filtradas (Vista 6)
 DROP PROCEDURE IF EXISTS sp_verReservas &&
 CREATE PROCEDURE sp_verReservas(
     IN dia date, IN horaInicial time, IN horaFinal time, IN idSala char(1),
@@ -200,7 +200,7 @@ BEGIN
         and (estadoReserva is null or Estado_Actividad=estadoReserva);
 END &&
 
--- Agregar reserva
+-- 11. Agregar reserva
 DROP PROCEDURE IF EXISTS sp_agregarReserva;
 CREATE PROCEDURE sp_agregarReserva(
     IN dia date, IN horaInicial time, IN horaFinal time,
@@ -230,14 +230,14 @@ sp: BEGIN
     COMMIT;
 END &&
 
--- Cancelar reserva
+-- 12. Cancelar reserva
 DROP PROCEDURE IF EXISTS sp_cancelarReserva &&
 CREATE PROCEDURE sp_cancelarReserva(IN dia date, IN horaInicial time, IN idSala char(1))
 BEGIN    
     DELETE FROM Actividad WHERE Act_Fecha=dia and Act_HoraInicio=horaInicial and Sal_Id=idSala;
 END &&
 
--- Deshabilitar sala manualmente (y cerrar sesiones activas)
+-- 13. Deshabilitar sala manualmente (y cerrar sesiones activas)
 DROP PROCEDURE IF EXISTS sp_deshabilitarSala &&
 CREATE PROCEDURE sp_deshabilitarSala(IN idSala char(1))
 BEGIN
@@ -258,7 +258,7 @@ BEGIN
     COMMIT;
 END &&
 
--- Habilitar sala manualmente
+-- 14. Habilitar sala manualmente
 CREATE PROCEDURE sp_habilitarSala(IN idSala char(1))
 BEGIN
     UPDATE Sala SET Sal_Disponibilidad = 1 WHERE Sal_Id=idSala;
@@ -272,7 +272,7 @@ DELIMITER ;
 
 DELIMITER &&
 
--- Registrar nuevo turno en login ---> Genera llave artificial
+-- 15. Registrar nuevo turno en login ---> Genera llave artificial
 DROP FUNCTION IF EXISTS fn_monitorLogin &&
 CREATE FUNCTION fn_monitorLogin(idSala char(1), numMonitor int)
 RETURNS int DETERMINISTIC
@@ -284,7 +284,7 @@ BEGIN
     RETURN last_insert_id();
 END &&
 
--- Actualizar turno en logout
+-- 16. Actualizar turno en logout
 DROP PROCEDURE IF EXISTS sp_monitorLogout &&
 CREATE PROCEDURE sp_monitorLogout(IN idTurno int)
 BEGIN
