@@ -1,20 +1,20 @@
 use sim_ba;
 
-drop trigger if exists tr_nuevaSesion
+drop trigger if exists tr_nuevaSesion;
 DELIMITER &&
 create trigger tr_nuevaSesion after INSERT on Sesion for each row
 BEGIN
-	update Computador set Comp_Disponibilidad=0 where Com_Id=new.Com_Id and Sal_Id=new.Sal.Id;
+	update Computador set Comp_Disponibilidad=0 where Com_Id=new.Com_Id and Sal_Id=new.Sal_Id;
 END &&
 DELIMITER ;
 
-drop trigger if exists tr_cierreSesion
+drop trigger if exists tr_cierreSesion;
 DELIMITER &&
 create trigger tr_cierreSesion after UPDATE on Sesion for each row
 BEGIN
 	if (not(new.ses_horaFin=null)) 
     THEN
-		update Computador set Comp_Disponibilidad=1 where Com_Id=old.Com_Id and Sal_Id=old.Sal.Id;
+		update Computador set Comp_Disponibilidad=1 where Com_Id=old.Com_Id and Sal_Id=old.Sal_Id;
     END IF;
 END &&
 DELIMITER ;
