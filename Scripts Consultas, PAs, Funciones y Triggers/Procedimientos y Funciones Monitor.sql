@@ -274,21 +274,21 @@ DELIMITER &&
 
 -- Registrar nuevo turno en login ---> Genera llave artificial
 DROP FUNCTION IF EXISTS fn_monitorLogin &&
-CREATE FUNCTION fn_monitorLogin(fechaTurno date, horaInicial time, idSala char(1), numMonitor int)
+CREATE FUNCTION fn_monitorLogin(idSala char(1), numMonitor int)
 RETURNS int DETERMINISTIC
 READS SQL DATA
 BEGIN    
     INSERT INTO Turno_Mon(Tur_Fecha, Tur_HoraInicio, Sal_Id, Mon_Numero)
-    VALUES (fechaTurno, horaInicial, idSala, numMonitor);
+    VALUES (current_date(), current_time(), idSala, numMonitor);
 
     RETURN last_insert_id();
 END &&
 
 -- Actualizar turno en logout
 DROP PROCEDURE IF EXISTS sp_monitorLogout &&
-CREATE PROCEDURE sp_monitorLogout(IN idTurno int, IN horaFinal time)
+CREATE PROCEDURE sp_monitorLogout(IN idTurno int)
 BEGIN
-    UPDATE Turno_Mon SET Tur_HoraFinal=horaFinal WHERE Tur_Id=idTurno;
+    UPDATE Turno_Mon SET Tur_HoraFinal=current_time() WHERE Tur_Id=idTurno;
 END &&
 
 DELIMITER ;
