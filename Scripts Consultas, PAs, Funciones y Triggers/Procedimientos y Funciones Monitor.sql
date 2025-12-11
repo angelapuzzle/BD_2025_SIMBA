@@ -201,7 +201,7 @@ BEGIN
 END &&
 
 -- 11. Agregar reserva
-DROP PROCEDURE IF EXISTS sp_agregarReserva;
+DROP PROCEDURE IF EXISTS sp_agregarReserva &&
 CREATE PROCEDURE sp_agregarReserva(
     IN dia date, IN horaInicial time, IN horaFinal time,
     IN idSala char(1), IN comentarios longtext, IN tiunEmpleado bigint
