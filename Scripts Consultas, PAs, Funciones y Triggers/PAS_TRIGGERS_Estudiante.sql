@@ -12,7 +12,7 @@ drop trigger if exists tr_cierreSesion;
 DELIMITER &&
 create trigger tr_cierreSesion after UPDATE on Sesion for each row
 BEGIN
-	if (not(new.ses_horaFin=null)) 
+    IF (old.ses_horaFin is null and new.ses_horaFin is not null)
     THEN
 		update Computador set Comp_Disponibilidad=1 where Com_Id=old.Com_Id and Sal_Id=old.Sal_Id;
     END IF;
@@ -27,7 +27,7 @@ BEGIN
 	declare mon int;
     DECLARE msg varchar(255);
     set existe_est = (select exists (select 1 from estudiante where Est_Tiun));
-    select mon_numero into mon from Turno_Mon where Tur_fecha=current_date() and Sal_Id=sala and Tur_HoraFinal=null;
+    select mon_numero into mon from Turno_Mon where Tur_fecha=current_date() and Sal_Id=sala and Tur_HoraFinal is null;
     insert into sesion (ses_fecha, ses_horaInicio, com_id, sal_id, mon_numero, est_tiun) values (current_date(), current_time(), compu, sala, mon, tiun);
 END &&
 DELIMITER ;
