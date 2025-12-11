@@ -1,34 +1,4 @@
 -- // ==========================================
--- // GESTIÓN DE TURNOS DE MONITORES
--- // ==========================================
-
-DELIMITER &&
-
-DROP PROCEDURE IF EXISTS sp_verTurnosMonitores &&
-CREATE PROCEDURE sp_verTurnosMonitores(
-    IN diaTurno date, IN horaInicial time, IN horaFinal time, IN idSala char(1), 
-    IN numeroMonitor int, IN tiunMonitor bigint, IN nombreMonitor varchar(45), IN apellidoMonitor varchar(45),
-    IN estadoTurno varchar(20)
-)
-BEGIN
-    SELECT *
-    FROM vw_Turnos_Monitores
-    WHERE
-        (diaTurno is null or Tur_Fecha=diaTurno)
-        and (horaInicial is null or horaInicial<Tur_HoraFinal)
-        and (horaFinal is null or horaFinal>Tur_HoraInicio)
-        and (idSala is null or Sal_Id LIKE CONCAT(idSala, '%'))
-        and (numeroMonitor is null or Mon_Numero=numeroMonitor)
-        and (tiunMonitor is null or Est_Tiun LIKE CONCAT(tiunMonitor, '%'))
-        and (nombreMonitor is null or Est_Nombre LIKE CONCAT('%', nombreMonitor, '%'))
-        and (apellidoMonitor is null or Est_Apellido LIKE CONCAT('%', apellidoMonitor, '%'))
-        and (estadoTurno is null or Estado_Turno=estadoTurno);
-END &&
-
-DELIMITER ;
-
-
--- // ==========================================
 -- // GESTIÓN DE SUPERVISIONES
 -- // ==========================================
 
@@ -81,27 +51,44 @@ END &&
 DELIMITER ;
 
 
+
+
+-- // ==========================================
+-- // GESTIÓN DE TURNOS DE MONITORES
+-- // ==========================================
+
+DELIMITER &&
+
+DROP PROCEDURE IF EXISTS sp_verTurnosMonitores &&
+CREATE PROCEDURE sp_verTurnosMonitores(
+    IN diaTurno date, IN horaInicial time, IN horaFinal time, IN idSala char(1), 
+    IN numeroMonitor int, IN tiunMonitor bigint, IN nombreMonitor varchar(45), IN apellidoMonitor varchar(45),
+    IN estadoTurno varchar(20)
+)
+BEGIN
+    SELECT *
+    FROM vw_Turnos_Monitores
+    WHERE
+        (diaTurno is null or Tur_Fecha=diaTurno)
+        and (horaInicial is null or horaInicial<Tur_HoraFinal)
+        and (horaFinal is null or horaFinal>Tur_HoraInicio)
+        and (idSala is null or Sal_Id LIKE CONCAT(idSala, '%'))
+        and (numeroMonitor is null or Mon_Numero=numeroMonitor)
+        and (tiunMonitor is null or Est_Tiun LIKE CONCAT(tiunMonitor, '%'))
+        and (nombreMonitor is null or Est_Nombre LIKE CONCAT('%', nombreMonitor, '%'))
+        and (apellidoMonitor is null or Est_Apellido LIKE CONCAT('%', apellidoMonitor, '%'))
+        and (estadoTurno is null or Estado_Turno=estadoTurno);
+END &&
+
+DELIMITER ;
+
+
+
 -- // ==========================================
 -- // TURNO DE ADMINISTRADOR
 -- // ==========================================
 
 DELIMITER &&
-
--- Registrar nuevo turno en login ---> Genera llave artificial
-DROP PROCEDURE IF EXISTS sp_adminLogin &&
-CREATE PROCEDURE sp_adminLogin(fechaTurno date, horaInicial time, tiunAdmin bigint)
-BEGIN    
-    INSERT INTO Turno_Adm(Sup_Fecha, Sup_HoraInicio, Adm_Tiun) 
-    VALUES (fechaTurno, horaInicial, tiunAdmin);
-END &&
-
--- Actualizar turno en logout
-DROP PROCEDURE IF EXISTS sp_adminLogout &&
-CREATE PROCEDURE sp_adminLogout(fechaTurno date, horaInicial time, tiunAdmin bigint, horaFinal time)
-BEGIN
-    UPDATE Turno_Adm SET Sup_HoraFinal=horaFinal
-    WHERE (Sup_Fecha, Sup_HoraInicio, Adm_Tiun) = (fechaTurno, horaInicial, tiunAdmin);
-END &&
 
 -- Ver historial de turnos filtrado por atributos
 DROP PROCEDURE IF EXISTS sp_verTurnosAdmins &&
@@ -121,6 +108,22 @@ BEGIN
         and (nombreAdmin is null or Adm_Nombre LIKE CONCAT('%', nombreAdmin, '%'))
         and (apellidoAdmin is null or Adm_Apellido LIKE CONCAT('%', apellidoAdmin, '%'))
         and (estadoTurno is null or Estado_Turno=estadoTurno);
+END &&
+
+-- Registrar nuevo turno en login ---> Genera llave artificial
+DROP PROCEDURE IF EXISTS sp_adminLogin &&
+CREATE PROCEDURE sp_adminLogin(fechaTurno date, horaInicial time, tiunAdmin bigint)
+BEGIN    
+    INSERT INTO Turno_Adm(Sup_Fecha, Sup_HoraInicio, Adm_Tiun) 
+    VALUES (fechaTurno, horaInicial, tiunAdmin);
+END &&
+
+-- Actualizar turno en logout
+DROP PROCEDURE IF EXISTS sp_adminLogout &&
+CREATE PROCEDURE sp_adminLogout(fechaTurno date, horaInicial time, tiunAdmin bigint, horaFinal time)
+BEGIN
+    UPDATE Turno_Adm SET Sup_HoraFinal=horaFinal
+    WHERE (Sup_Fecha, Sup_HoraInicio, Adm_Tiun) = (fechaTurno, horaInicial, tiunAdmin);
 END &&
 
 DELIMITER ;
