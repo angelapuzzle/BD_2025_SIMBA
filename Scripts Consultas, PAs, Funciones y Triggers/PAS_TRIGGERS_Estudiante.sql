@@ -36,7 +36,7 @@ drop procedure if exists sp_cerrarSesion;
 DELIMITER &&
 CREATE PROCEDURE sp_cerrarSesion (tiun bigint)
 BEGIN
-	update Sesion SET ses_Hora_fin=current_time() where est_tiun=tiun and ses_fecha=current_date();
+	update Sesion SET ses_Hora_fin=current_time() where est_tiun=tiun and ses_fecha=current_date() and ses_Hora_fin is null;
 END &&
 DELIMITER ;
 
