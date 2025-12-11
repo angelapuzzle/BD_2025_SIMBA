@@ -36,9 +36,9 @@ BEGIN
     SELECT *
     FROM vw_Sesiones
     WHERE
-        (@dia_sesion is null or Ses_Fecha=@dia_sesion)
+        (dia is null or Ses_Fecha=dia)
         and (horaInicial is null or horaInicial<Ses_HoraFin)
-        and (@hora_final is null or @hora_final>Ses_HoraInicio)
+        and (horaFinal is null or horaFinal>Ses_HoraInicio)
         and (idSala is null or Sal_Id=idSala)
         and (idComputador is null or Com_Id=idComputador)
         and (tiunEstudiante is null or Est_Tiun LIKE CONCAT(tiunEstudiante, '%'))
@@ -57,7 +57,7 @@ BEGIN
     FROM vw_Estadisticas_Computadores
         WHERE
         (Sal_Id=idSala)
-        and (@computador is null or Com_Id=idcomputador);
+        and (idComputador is null or Com_Id=idcomputador);
 END &&
 
 
@@ -105,7 +105,7 @@ BEGIN
     );
     
     UPDATE Computador
-    SET Comp_Disponibilidad = IF(@inhabilitar, null, 1)
+    SET Comp_Disponibilidad = IF(inhabilitar, null, 1)
     WHERE (
         Com_Id=idComputador and Sal_Id=idSala
     );
@@ -147,6 +147,7 @@ BEGIN
 END &&
 
 -- Inserción de nuevos empleados
+DROP PROCEDURE IF EXISTS sp_monNuevoEmpleado &&
 CREATE PROCEDURE sp_monNuevoEmpleado(
     IN tiunEmpleado int, IN nombreEmpleado varchar(45), IN apellidoEmpleado varchar(45),
     IN correoEmpleado varchar(45), IN docentePlanta tinyint, IN funcionarioCargo varchar(45),
@@ -157,6 +158,7 @@ BEGIN
 END &&
 
 -- Actualización datos empleados
+DROP PROCEDURE IF EXISTS sp_monEditarEmpleado &&
 CREATE PROCEDURE sp_monEditarEmpleado(
     IN tiunEmpleado int, IN nombreEmpleado varchar(45), IN apellidoEmpleado varchar(45),
     IN correoEmpleado varchar(45), IN docentePlanta tinyint, IN funcionarioCargo varchar(45),
@@ -248,7 +250,7 @@ BEGIN
     UPDATE Sesion
     SET Ses_HoraFin = current_time()
     WHERE (
-        Sal_Id=@sala
+        Sal_Id=idSala
         and Ses_Fecha = CURRENT_DATE()
         and Ses_HoraFin is null
     );
